@@ -2,7 +2,12 @@
 # Create data base
 
 #check whether root folder exist
-source ./db_root_exist.sh
+#source ./db_root_exist.sh
+
+if [ ! -d db_root ]
+then
+	mkdir db_root
+fi 
 
 # user entered DB name
 if [ $# -eq 1 ]
