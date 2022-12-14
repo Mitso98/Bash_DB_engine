@@ -1,9 +1,9 @@
 #!/bin/bash
 # Create data base
 
-#check whether root folder exist
 #source ./db_root_exist.sh
 
+#check whether root folder exist
 if [ ! -d db_root ]
 then
 	mkdir db_root
@@ -18,8 +18,12 @@ elif [ $# -eq 0 ]
 then
 	echo "Enter DB name"
 	read DB	
-
-	if [[ $DB =~ ^[A-Za-z].* ]]
+	
+	if [ -d db_root/$DB ]
+	then
+		echo "DB already exists"
+		exit 1
+	elif [[ $DB =~ ^[A-Za-z].* ]]
 	then	
 		mkdir db_root/"$DB"
 		exit 0
