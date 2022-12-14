@@ -1,0 +1,117 @@
+#Limitations
+if user created db_root manually we will face many issues.
+
+#ToDo
+
+##General design
+	#remove .sh
+	#add paths
+	#change PS3 to the current DB
+
+##Functions
+
+#start_db() //DONE
+	check if root folder existed ==> root_existed()
+	mkdir db_root
+	mkdir meta_Data
+	touch two files existed_DB and current_db
+
+#create_db() //DONE
+	check if only one argument mkdir $1
+		check for corrupted name
+	if more than one argument 
+		echo enter a valid input
+	if no arguments
+		read DB name
+	db_exist() ==> loop at meta_Data file
+		echo message
+	append to existed_db meta_data file
+
+#connect_db() //DONE
+	if no argument
+		read input
+	if [ -d input ]
+		echo "success message"
+		edit meta_data current_db file
+		change PS3=input
+#exit_db()
+	check data at current_db == true
+		 delte db name (leave it empty)
+	else 
+		echo "this is not the current DB"
+
+#show_db()		
+	loop over existed_db meta_data file items
+	
+#drop_db()
+	if [ -d input ] 
+		rm input
+	else
+		echo "not found"
+	check current_db == input
+		echo "please exit db to remove it."
+		exit 1
+
+	edit existed_db file
+
+---------------------------------------------------
+##check-section
+#root_existed()
+#check_special_charchter(takes one argument)
+	name will start with only alphabets
+#data_type()
+#prevent_delimiter()
+	prevent user to start with (,)
+-----------------------------------------------------
+
+##Table Functions
+
+/* 
+	./current_db
+
+	col1,col2,col3
+	a,b,c	 
+*/
+#create_table()
+
+	if current_db file is empty exit function
+	
+	//store into variable
+	// never accept any input with the delimeter (,)
+	get table_name
+	get col_length
+	get col_name
+	get col_data_type
+	get is_pk //we will only have one PK
+	
+	
+	// write into files
+	/*
+		int, int pk,string
+		col1,col2,col3
+	*/
+#drop_table()
+	//must be connected to a DB
+	check current_db file
+	if [ -f current_db/table_name ] // check for table name	
+	//remove table_name file if found
+
+#insert_into_table()
+	get table_name
+	check if table existed into the current_db
+	get col_number //grep
+	echo col_names
+	read data
+		check data_type()
+		prevent_delimiter()
+	echo "$data," >> table_name //row 3rd
+	
+#delete_row()
+	get table_name
+	check if table_name existed into the current_db
+	search for PK if table dose not have PK work with row number
+		check pk exist
+
+
+
+

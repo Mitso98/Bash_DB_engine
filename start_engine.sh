@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 if [ $# -gt 0 ]
 then
 	echo "This function accepts no arguments"
@@ -10,9 +12,6 @@ else
 		echo "Root folder already exists"
 	else
 		mkdir db_root
-		mkdir db_root/meta_data
-		touch db_root/meta_data/existed_db
-		touch db_root/meta_data/current_db
 		exit 0
 	fi 
 fi
