@@ -3,16 +3,10 @@
 source ./db_root_path.sh
 
 
-for dbname in "$DB_PATH"/*
+for dbname in `ls -d $DB_PATH/*/ | cut -f3 -d'/' `
+
 do
-	x=${dbname##/}
-echo $x
-	if [ -d $dbname ]
-	then	
-		echo $x
-	fi	
+       echo $dbname
+		
 done 
-
-
-
 
