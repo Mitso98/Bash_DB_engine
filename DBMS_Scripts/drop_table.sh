@@ -23,9 +23,11 @@ then
 	exit 1
 fi
 
-for tables in "$DB_PATH/$current_db"/*
+list_tables=`ls -d $DB_PATH/$current_db/* | cut -f4 -d '/' `
+
+for tables in $list_tables
 do	
-	if [ $tables = "$DB_PATH/$current_db/$table_name" ]
+	if [ $tables = $table_name ]
 	then
 		echo "$table_name has been deleted"
 		`rm "$DB_PATH/$current_db/$table_name"`

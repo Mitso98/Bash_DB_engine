@@ -14,6 +14,7 @@ fi
 
 if [ $# -eq 0 ]
 then
+	echo "Enter table name"
 	read -r table_name
 fi
 
@@ -22,10 +23,12 @@ then
 	echo "PLease enter a valid name"
 	exit 1
 fi
-	
-for tables in "$DB_PATH/$current_db"/*
+
+list_tables=`ls -d $DB_PATH/$current_db/* | cut -f4 -d '/' `
+
+for tables in $list_tables
 do	
-	if [ $tables = "$DB_PATH/$current_db/$table_name" ]
+	if [ $tables = $table_name ]
 	then
 		echo "This table already exists"
 		exit 1
