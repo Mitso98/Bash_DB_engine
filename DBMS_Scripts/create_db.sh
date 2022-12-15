@@ -4,6 +4,7 @@
 # IMPORT DB_PATH variable
 source ./db_root_path.sh
 
+
 declare DB
 
 #check whether root folder exist
@@ -16,7 +17,8 @@ fi
 if [ $# -eq 0 ]
 then
 	echo "Enter DB name" 
-	read DB
+	read  -r DB
+
 else
 	DB=$1
 fi
@@ -28,6 +30,7 @@ then
 elif [[ $DB =~ ^[A-Za-z].* ]]
 then	
 	mkdir "$DB_PATH/$DB"
+	echo "$DB is Created Successfully"
 	exit 0
 else
 	echo "Please enter a valid input!"

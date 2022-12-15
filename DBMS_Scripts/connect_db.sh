@@ -8,14 +8,14 @@ declare DB
 if [ $# -eq 0 ]
 then 
 	echo "Enter DB name"
-	read DB
+	read -r DB
 else 
 	DB=$1	
 fi
 
-if [ -d $DB_PATH/$DB ]
+if [ -d "$DB_PATH/$DB" ]
 then 	
-	echo $DB > $DB_PATH/current_db
+	echo "$DB" > $DB_PATH/current_db
 	echo "DB $DB is connected"
 	exit 0
 else
