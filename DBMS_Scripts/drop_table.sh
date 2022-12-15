@@ -15,8 +15,6 @@ fi
 if [ $# -eq 0 ]
 then
 	read table_name
-else
-	table_name=$1 
 fi
 
 if ! [[ $table_name =~ ^[A-Za-z].* ]]

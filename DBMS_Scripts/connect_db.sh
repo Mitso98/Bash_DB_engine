@@ -9,8 +9,6 @@ if [ $# -eq 0 ]
 then 
 	echo "Enter DB name"
 	read -r DB
-else 
-	DB=$1	
 fi
 
 if [ -d "$DB_PATH/$DB" ]

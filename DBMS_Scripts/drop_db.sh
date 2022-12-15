@@ -11,8 +11,6 @@ if [ $# -eq 0 ]
 then 
 	echo "Enter DB Name to Drop : "
 	read DB
-else 
-	DB=$1	
 fi
 
 if [ -d "$DB_PATH/$DB" ]
