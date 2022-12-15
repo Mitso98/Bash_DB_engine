@@ -90,6 +90,8 @@ if user created db_root manually we will face many issues.
 		int, int pk,string
 		col1,col2,col3
 	*/
+
+
 #drop_table()
 	//must be connected to a DB
 	check current_db file
