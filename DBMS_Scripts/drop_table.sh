@@ -23,6 +23,7 @@ then
 	exit 1
 fi
 
+# TODO create if [ -f table] rather than loop
 list_tables=`ls -d $DB_PATH/$current_db/* | cut -f4 -d '/' `
 
 for tables in $list_tables

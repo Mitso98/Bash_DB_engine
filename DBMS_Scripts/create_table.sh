@@ -24,17 +24,19 @@ then
 	exit 1
 fi
 
-list_tables=`ls -d $DB_PATH/$current_db/* | cut -f4 -d '/' `
+# check if folder is empty do not excute below command
+if [ "$(ls -A "$DB_PATH/$current_db")" ] 
+then
+	list_tables=`ls -d $DB_PATH/$current_db/* | cut -f4 -d '/' `
+	for tables in $list_tables
+	do	
+		if [ $tables = $table_name ]
+		then
+			echo "This table already exists"
+			exit 1
+		fi
+	done
+fi
 
-for tables in $list_tables
-do	
-	if [ $tables = $table_name ]
-	then
-		echo "This table already exists"
-		exit 1
-	fi
-done
 
-touch  "$DB_PATH/$current_db/$table_name"
-
-
+touch "$DB_PATH/$current_db/$table_name"

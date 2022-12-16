@@ -10,7 +10,7 @@ typeset curr=`cat $DB_PATH/current_db`
 if [ $# -eq 0 ]
 then 
 	echo "Enter DB Name to Drop : "
-	read DB
+	read -r DB
 fi
 
 if [ -d "$DB_PATH/$DB" ]
