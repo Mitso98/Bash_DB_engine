@@ -55,6 +55,7 @@ col_no=$index
 index=0
 data=""
 counter=1
+dublicate=0
 typeset -a row
 
 while [[ $index < $col_no ]]
@@ -69,12 +70,25 @@ do
 		then
 			echo "This column can not be empty"
 			continue
-		elif [[ "`awk -F ',' -v d=$data ' $1 == $d { print $1 } ' "$DB_PATH/$current_db/$table_name"  `" ]] 
-		then
-			echo "PK must be unique"
+		fi	
+		for x in `cat "$DB_PATH/$current_db/$table_name" | cut -d ',' -f 1`
+		do
+	 		if [[ $data == $x ]]
+			then
+				echo "PK must be unique"
+				dublicate=1
+				break
+			fi
+		done
+		
+		if [[ $dublicate == 1 ]]
+		then 
+			dublicate=0
 			continue
 		fi
+		
 	fi
+	
 	
 	# check for integer
 	if [[ ${data_type[$index]} == *"int"* && $data =~ ^-?[0-9]+$ ]]
