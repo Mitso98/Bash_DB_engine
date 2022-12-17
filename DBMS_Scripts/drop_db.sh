@@ -7,30 +7,30 @@ declare DB
 
 typeset curr=`cat $DB_PATH/current_db`
 
-if [ $# -eq 0 ]
-then 
-	echo "Enter DB Name to Drop : "
-	read -r DB
+if [ -z $current_db ]
+then
+	echo "You are not connected to DB"
+	exit 1
 fi
+
+echo "Enter DB Name to Drop : "
+read -r DB
+
 
 if [ -d "$DB_PATH/$DB" ]
     then 	
+        if [ "$DB" = "$curr" ]
 
-    if [ "$DB" = "$curr" ]
+        then 
+            echo "Your now connected to $DB please exit from $DB first"
 
-    then 
-        echo "Your now connected to $DB please exit from $DB first"
-
-    else 
-                rm -r "$DB_PATH/$DB"
-                echo "The $DB Data Base Droped Successfuly"
-    
-        exit 0
-    fi
-
-
-
+        else 
+                    rm -r "$DB_PATH/$DB"
+                    echo "The $DB Data Base Droped Successfuly"
+        
+            exit 0
+        fi
     else
             echo "PLease enter a valid DB name"
             exit 1 
-    fi
+fi
