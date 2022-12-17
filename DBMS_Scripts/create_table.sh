@@ -48,16 +48,16 @@ then
 fi
 
 echo -e "ENTER Number of Colmns : \c"
-read Col_Num
+read -r Col_Num
 
 
-if [ $Col_Num = "0" ]
+if [ "$Col_Num" = "0" ]
 	then
 	echo "Enter Number not zero!!"
 	exit
 	fi
 
-if [[ ! $Col_Num =~ ^[0-9]+$ ]] 
+if [[ ! "$Col_Num" =~ ^[0-9]+$ ]] 
 then
 	
     echo "Enter Vaild Number !!"
@@ -136,11 +136,12 @@ declare  col_type
 					done
 		fi
 
-		Columns_names[$counter]=$col_name
-		Columns_dt[$counter]=$col_type
+		Columns_names[$counter]="$col_name"
+		Columns_dt[$counter]="$col_type"
 
 		counter=$counter+1
 	done 	
+
 
 	for col in ${Columns_dt[@]}
 			do	
@@ -156,27 +157,27 @@ declare  col_type
 
 		if [ $pk = 1 ]
 			then 
-				touch "$DB_PATH/$current_db/$table_name"
+				
+				touch "$DB_PATH/$current_db/"$table_name""
 
-				table_file="$DB_PATH/$current_db/$table_name"
-
+				table_file="$DB_PATH/$current_db/"$table_name""
+				
 				for col in ${Columns_dt[@]}
 				do
-				printf "$col|">> $table_file
+				printf ""$col"|">>"$table_file"
 				done 
-				printf "%s\n">> $table_file
-				for col in ${Columns_names[@]}
+				printf "%s\n">>"$table_file"
+				for col in "${Columns_names[@]}"
 				do
-				printf "$col|">> $table_file
+				coll=`echo ""$col"|"`
+				printf "$coll">>"$table_file"
 				done
-				printf "%s\n">> $table_file
+				printf "%s">>"$table_file"
+
+
 
 				echo "The Table Created Successfuly :)"
 
 		else
 				echo "Your Table has not  PK Column :)"
 		fi
-
-
-
-

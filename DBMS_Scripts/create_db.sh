@@ -16,7 +16,7 @@ fi
 # user entered DB name
 if [ $# -eq 0 ]
 then
-	echo "Enter DB name" 
+	echo -e "Enter DB name : \c" 
 	read  -r DB
 fi
 	

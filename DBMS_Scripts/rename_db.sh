@@ -9,7 +9,7 @@ typeset curr=`cat $DB_PATH/current_db`
 
 if [ $# -eq 0 ]
 then 
-	echo "Enter DB name"
+	echo -e "Enter DB name : \c"
 	read -r DB
     fi
 
@@ -25,7 +25,7 @@ if [ -d "$DB_PATH/$DB" ]
 
     else 
 
-        echo "Enter the new name of DB :"
+        echo -e "Enter the new name of DB : \c"
 	    read -r NEWDB 	
 
                 mv "$DB_PATH/$DB" "$DB_PATH/$NEWDB"
