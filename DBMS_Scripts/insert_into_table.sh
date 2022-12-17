@@ -26,8 +26,8 @@ done
 
 
 #store data types & col_names
-type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d ',' -f 1`
-col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d ',' -f 1`
+type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f 1`
+col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f 1`
 
 if [ -z $type ]
 then
@@ -44,8 +44,8 @@ do
 
 	index+=$((1))
 
-    col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d ',' -f $counter`
-    type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d ',' -f $counter`
+    col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f $counter`
+    type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f $counter`
 
 done
 
@@ -64,14 +64,14 @@ do
 	read -r data
 	
 	# this column is PK	
-	if [[ ${data_type[$index]} == *"|"* ]]  
+	if [[ ${data_type[$index]} == *":"* ]]  
 	then
 		if [ -z $data ]
 		then
 			echo "This column can not be empty"
 			continue
 		fi	
-		for x in `cat "$DB_PATH/$current_db/$table_name" | cut -d ',' -f $counter`
+		for x in `cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter`
 		do
 	 		if [[ $data == $x ]]
 			then
@@ -93,13 +93,13 @@ do
 	# check for integer
 	if [[ ${data_type[$index]} == *"int"* && $data =~ ^-?[0-9]+$ ]]
 	then 
-		row[$index]="$data,"
-	elif [[ ${data_type[$index]} == *"string"* && $data =~ ^[A-Za-z].* ]]
+		row[$index]="$data|"
+	elif [[ ${data_type[$index]} == *"str"* && $data =~ ^[A-Za-z].* ]]
 	then
-		row[$index]="$data,"
+		row[$index]="$data|"
 	elif [ -z $data ]
     then
-        row[$index]="$data,"
+        row[$index]="$data|"
     else
 		echo "PLease enter valid data"
 		continue
@@ -108,5 +108,4 @@ do
     	(( index += 1 ))
 done
 
-echo -e ${row[@]} >> "$DB_PATH/$current_db/$table_name"  
-
+echo  ${row[@]} >> "$DB_PATH/$current_db/$table_name"  

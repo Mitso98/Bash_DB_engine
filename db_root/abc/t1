@@ -1,6 +1,5 @@
-int|pk,string,int,
-col0,col1,col2,
-0, a, 0,
-11, a, 0,
-1, a, 0,
-2, a, 0,
+int|str:pk|int|
+mo|om|kk|
+1| as| 1|
+12| AS| 2|
+1| ASS| 2|

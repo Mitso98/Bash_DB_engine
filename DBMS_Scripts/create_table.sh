@@ -158,9 +158,10 @@ declare  col_type
 		if [ $pk = 1 ]
 			then 
 				
-				touch "$DB_PATH/$current_db/"$table_name""
+				
+				touch "$DB_PATH/$current_db/$table_name"
 
-				table_file="$DB_PATH/$current_db/"$table_name""
+				table_file="$DB_PATH/$current_db/$table_name"
 				
 				for col in ${Columns_dt[@]}
 				do
