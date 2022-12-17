@@ -16,6 +16,8 @@ then
 fi
 
 # get table name
+echo "Enter table name"
+read -r table_name
 while [ ! -f "$DB_PATH/$current_db/$table_name" ]
 do
     echo "Enter table name"
