@@ -71,7 +71,7 @@ do
 			echo "This column can not be empty"
 			continue
 		fi	
-		for x in `cat "$DB_PATH/$current_db/$table_name" | cut -d ',' -f 1`
+		for x in `cat "$DB_PATH/$current_db/$table_name" | cut -d ',' -f $counter`
 		do
 	 		if [[ $data == $x ]]
 			then
@@ -80,7 +80,7 @@ do
 				break
 			fi
 		done
-		
+
 		if [[ $dublicate == 1 ]]
 		then 
 			dublicate=0
@@ -104,7 +104,7 @@ do
 		echo "PLease enter valid data"
 		continue
 	fi	
-	
+		(( counter += 1))
     	(( index += 1 ))
 done
 
