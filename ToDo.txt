@@ -116,10 +116,13 @@ if user created db_root manually we will face many issues.
 
 
 
-#Drop_colamn
+#update table
+#alter table ( s
+	#add column , 
+	#drop column , 
+	#rename column
+	) 
 
-#select 
+#delete from table 
 
-
-#add colamn 
-
+#select from table
