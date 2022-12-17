@@ -100,7 +100,7 @@ declare  col_type
 
 
 		echo "Type of Column $col_name: "
-
+			PS3="Enter your Choice >"
 			select type in "int" "str"
 			do
 				case $type in
@@ -124,6 +124,7 @@ declare  col_type
 		then
 
 			echo "Make PrimaryKey ? "
+			PS3="Enter your Choice >"
 					select Choice in "yes" "no"
 					do
 						case $Choice in
