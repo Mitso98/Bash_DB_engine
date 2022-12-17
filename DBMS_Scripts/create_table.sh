@@ -64,12 +64,12 @@ then
     exit
 fi
 
-	declare -i counter=1
-	declare  col_type
-	declare -a Columns_dt
-	declare -a Columns_names
-	declare  col_name
-	declare  col_type
+declare -i counter=1
+declare  col_type
+declare -a Columns_dt
+declare -a Columns_names
+declare  col_name
+declare  col_type
 
 	while [ $counter -le $Col_Num ]
 	do
