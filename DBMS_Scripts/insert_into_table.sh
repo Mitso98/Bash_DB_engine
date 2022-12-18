@@ -60,7 +60,7 @@ typeset -a row
 
 while [[ $index < $col_no ]]
 do
-    	echo "column type: ${data_type[$index]} column name: ${col_names[$index]}";
+    echo "column type: ${data_type[$index]} column name: ${col_names[$index]}";
 	read -r data
 	
 	# this column is PK	
