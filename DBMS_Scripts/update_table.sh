@@ -277,12 +277,12 @@ source ./db_root_path.sh
                     "${choices[1]}" )
 
                     echo -e "Enter where condition Column you want To update table ($table_name) for : \c"
-                    read -r col_cond
+                    read -r data
                     flg=0
                      col_index=1
                         for col in "${col_names[@]}"
 			            do	
-				         if [ "$col_cond" = "$col" ]
+				         if [ "$data" = "$col" ]
                             then
                             flg=1
                             break
@@ -296,13 +296,13 @@ source ./db_root_path.sh
                         fi
                         
                         echo -e "Update ($table_name) where ("${col_names[$col_index]}") ("${col_dt[$col_index]}"): \c"
-                        read -r data                                
+                        read -r col_cond                                
                         flg=0
                         declare -i i=1
                         while [ $i -le $Num_records ] 
                                 do
                                     x=`cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $col_index | sed '1,2d'|sed "${i}p;d" `
-                                    if [ "$x" = "$data" ]
+                                    if [ "$x" = "$col_cond" ]
                                     then 
                                     flg=1
                                     break
@@ -474,13 +474,56 @@ source ./db_root_path.sh
 
                 for x in  "${col_index_to_change[@]}"
                 do 
-
-      
-                echo -e "${updated[$x]}|\c"
-
+                    echo -e "${updated[$x]}|\c"
                 done
 
+                
                 echo ""
+
+found=0
+(( Num_records += 2 ))
+# scan record by record
+for((j=1;j<Num_records;j++))
+do
+    for record in "`sed -n "$j p" "$DB_PATH/$current_db/$table_name"`"
+    do
+        for((i=1;i<=Col_Num;i++))
+        do
+            x="`cut -d'|' -f $i <<< "$record"`"
+            echo "$x >>  $col_cond >> $col_index >> $i "
+            if [[ "$x" == "$col_cond" && "$col_index" == "$i" && "$j" > 2 ]]
+            then
+                echo "Found"
+                found=1
+
+                for x in  "${col_index_to_change[@]}"
+                do 
+                    echo -n "${updated[$x]}|" >> "$DB_PATH/$current_db/$table_name.tmp"
+                done
+            else
+                echo -n "$x|" >> "$DB_PATH/$current_db/$table_name.tmp"
+            fi
+        done
+    done	
+    echo '' >> "$DB_PATH/$current_db/$table_name.tmp"
+done
+
+if [[ "$found" == "0" ]]
+then
+    echo "No values were matched"
+    exit 1
+fi
+
+echo "Value was succesufully deleted"
+
+`mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name"`;
+exit 0
+
+
+                
+
+
+
 
 
 

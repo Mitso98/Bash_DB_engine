@@ -18,12 +18,12 @@ do
     read -r table_name
 done
 
-declare -a data_type
+declare -a col_type
 declare -a col_names
 typeset -i counter=1
 typeset -i index=0
 
-#populate data_type & col_names arrays
+#populate col_type & col_names arrays
 type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f 1`
 col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f 1`
 
@@ -37,7 +37,7 @@ while [ ! -z "$type" ]
 do
     counter+=$((1))
 
-	data_type[$index]=$type
+	col_type[$index]=$type
     col_names[$index]=$col_name
 
 	index+=$((1))
@@ -89,16 +89,17 @@ echo "Enter value you want to delete"
 read -r target_value
 
 # delete specific record while we can not del PK specefically
-if [ $specific_record -eq 1 ]
+if [[ "$specific_record" == "1" ]]
 then
+
     # Will we delte PK
-    if [[ ${col_type[$col_pos]} == *":"* ]]
+    if [[ "${col_type[$col_pos]}" == *":"* ]]
     then
         echo "You can not delete PK record"
         exit 1
     fi
 
-    max_columns=${#col_names[@]}
+    max_columns="${#col_names[@]}"
     max_row=`awk -F'|' -v x=1 '{x++;}END{print x}' "$DB_PATH/$current_db/$table_name"`
     found=0
     # scan record by record
@@ -109,7 +110,7 @@ then
             for((i=1;i<=max_columns;i++))
             do
                 x="`cut -d'|' -f $i <<< "$record"`"
-                if [[ $x == $target_v && $col_pos == $i && $j > 2 ]]
+                if [[ "$x" == "$target_value" && "$(( col_pos + 1 ))" == "$i" && "$j" > 2 ]]
                 then
                     found=1
                     echo -n "|" >> "$DB_PATH/$current_db/$table_name.tmp"
@@ -121,24 +122,25 @@ then
         echo '' >> "$DB_PATH/$current_db/$table_name.tmp"
     done
 
-    if [[ found ]]
+    if [[ "$found" == "0" ]]
     then
 	    echo "No values were matched"
 	    exit 1
     fi
 
-    `mv "$DB_PATH/$current_db/$table_name.tmp" > "$DB_PATH/$current_db/$table_name"`;
+    echo "Value was succesufully deleted"
+
+    `mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name"`;
     exit 0
 fi
 
-if [ $whole_row -eq 1 ]
+if [ "$whole_row" = "1" ]
 then
     
-    max_columns=${#col_names[@]}
+    max_columns="${#col_names[@]}"
     max_row=`awk -F'|' -v x=1 '{x++;}END{print x}' "$DB_PATH/$current_db/$table_name"`
     declare -a target_pos
     target_pos_indx=0
-    found=0
 
     # scan record by record
     for((j=1;j<max_row;j++))
@@ -147,10 +149,10 @@ then
         do
             for((i=1;i<=max_columns;i++))
             do
+
                 x="`cut -d'|' -f $i <<< "$record"`"
-                if [[ $x == $target_v ]] 
+                if [[ "$x" == "$target_value" && "$(( col_pos + 1 ))" == "$i" && "$j" > 2 ]] 
                 then
-			        (( found += 1 ))
                     target_pos[$target_pos_indx]=$j
                     (( target_pos_indx += 1 ))
                 fi
@@ -158,10 +160,10 @@ then
         done	
     done
 
-    if [[ found == 0 ]]
+    if [[ "$target_pos_indx" == "0" ]]
     then
         echo "No values were found"
-        exit
+        exit 1
     fi
 
     for((i=0;i<target_pos_indx;i++))
@@ -170,9 +172,8 @@ then
         `sed -i ""$x"d" "$DB_PATH/$current_db/$table_name"`
     done
 
+    echo "Value was succesufully deleted"
     exit 0
 
 fi
-
-
 
