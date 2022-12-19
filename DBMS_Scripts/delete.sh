@@ -67,7 +67,6 @@ fi
 ## decrease position by one to match array index
 (( col_pos -= 1 ))
 
-## Delete Row with PK
 
 # Del specific record or whole row
 whole_row=0
@@ -85,19 +84,95 @@ do
     esac
 done
 
-# delete specific record wehile we can not del PK specifically
+## get the target_value
+echo "Enter value you want to delete"
+read -r target_value
+
+# delete specific record while we can not del PK specefically
 if [ $specific_record -eq 1 ]
 then
     # Will we delte PK
     if [[ ${col_type[$col_pos]} == *":"* ]]
     then
-        echo "You can not delte PK record"
+        echo "You can not delete PK record"
         exit 1
     fi
 
-    
+    max_columns=${#col_names[@]}
+    max_row=`awk -F'|' -v x=1 '{x++;}END{print x}' "$DB_PATH/$current_db/$table_name"`
+    found=0
+    # scan record by record
+    for((j=1;j<max_row;j++))
+    do
+        for record in "`sed -n "$j p" "$DB_PATH/$current_db/$table_name"`"
+        do
+            for((i=1;i<=max_columns;i++))
+            do
+                x="`cut -d'|' -f $i <<< "$record"`"
+                if [[ $x == $target_v && $col_pos == $i && $j > 2 ]]
+                then
+                    found=1
+                    echo -n "|" >> "$DB_PATH/$current_db/$table_name.tmp"
+                else
+                    echo -n "$x|" >> "$DB_PATH/$current_db/$table_name.tmp"
+                fi
+            done
+        done	
+        echo '' >> "$DB_PATH/$current_db/$table_name.tmp"
+    done
+
+    if [[ found ]]
+    then
+	    echo "No values were matched"
+	    exit 1
+    fi
+
+    `mv "$DB_PATH/$current_db/$table_name.tmp" > "$DB_PATH/$current_db/$table_name"`;
+    exit 0
 fi
 
+if [ $whole_row -eq 1 ]
+then
+    
+    max_columns=${#col_names[@]}
+    max_row=`awk -F'|' -v x=1 '{x++;}END{print x}' "$DB_PATH/$current_db/$table_name"`
+    declare -a target_pos
+    target_pos_indx=0
+    found=0
+
+    # scan record by record
+    for((j=1;j<max_row;j++))
+    do
+        for record in "`sed -n "$j p" "$DB_PATH/$current_db/$table_name"`"
+        do
+            for((i=1;i<=max_columns;i++))
+            do
+                x="`cut -d'|' -f $i <<< "$record"`"
+                if [[ $x == $target_v ]] 
+                then
+			        (( found += 1 ))
+                    target_pos[$target_pos_indx]=$j
+                    (( target_pos_indx += 1 ))
+                fi
+            done
+        done	
+    done
+
+    if [[ found == 0 ]]
+    then
+        echo "No values were found"
+        exit
+    fi
+
+    for((i=0;i<target_pos_indx;i++))
+    do  
+        x=${target_pos[$i]};
+        `sed -i ""$x"d" "$DB_PATH/$current_db/$table_name"`
+    done
+
+    exit 0
+
+fi
 
 
 
