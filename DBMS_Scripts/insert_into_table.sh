@@ -8,7 +8,7 @@ declare -a data_type
 declare -a col_names
 typeset -i counter=1
 typeset -i index=0
-
+declare -i pk_index=1
 if [ -z $current_db ]
 then
 	echo "You are not connected to DB"
@@ -23,6 +23,24 @@ do
     echo "Enter table name"
     read -r table_name
 done
+
+declare -i Num_records=`awk '{print}' "$DB_PATH/$current_db/$table_name" | sed '1,2d' | wc -l`
+
+######### get pk index ###############
+	for col in ${Columns_dt[@]}
+	    do	
+		    if [[ $col = *":pk"* ]] 
+			    then 
+                break 
+                fi
+            pk_index=$pk_index+1        
+		done
+        
+
+
+
+
+
 
 
 #store data types & col_names
@@ -71,15 +89,18 @@ do
 			echo "This column can not be empty"
 			continue
 		fi	
-		for x in `cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter`
-		do
-	 		if [[ $data == $x ]]
-			then
-				echo "PK must be unique"
-				dublicate=1
-				break
-			fi
-		done
+ 			declare -i i=1
+            while [ $i -le $Num_records ] 
+            do
+            	x=`cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d'|sed "${i}p;d" `
+                if [ "$x" = "$data" ]
+                    then 
+                     echo "PK must be unique"
+                    dublicate=1
+					break
+                fi	
+                i=$i+1
+            done 
 
 		if [[ $dublicate == 1 ]]
 		then 

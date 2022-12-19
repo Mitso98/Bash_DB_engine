@@ -126,3 +126,41 @@ if user created db_root manually we will face many issues.
 #delete from table 
 
 #select from table
+
+
+
+   col_cond
+            
+
+          where col_cond ==> col_index
+                
+          set 
+            name      
+                col_index_to_change
+                updated 
+
+                arr="${col_index_to_change[@]}"
+                up="${updated[@]}"
+             
+               BEGIN {FS="|";
+               RS="\n";
+               arr="${col_index_to_change[@]}";
+               up="${updated[@]}"}
+
+               { if ($'$col_index'=="'$col_cond'")
+               {for (i in arr)
+               {for (j in up)
+               { $i=$j }}}}
+                    
+            ##OFS=| "$DB_PATH/$current_db/$table_name"`
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+                echo $helo
