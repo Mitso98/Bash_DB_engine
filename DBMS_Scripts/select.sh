@@ -1,21 +1,19 @@
 #!/bin/bash
 
 source ./db_root_path.sh
-current_db=`cat "$DB_PATH/current_db"`
+current_db=$(cat "$DB_PATH/current_db")
 
-if [ -z $current_db ]
-then
+if [ -z $current_db ]; then
     echo '+---------------------------------+'
-	echo "You are not connected to DB"
+    echo "You are not connected to DB"
     echo '+---------------------------------+'
-	exit 1
+    exit 1
 fi
 
 # get table name
 echo "Enter table name"
 read -r table_name
-while [ ! -f "$DB_PATH/$current_db/$table_name" ]
-do
+while [ ! -f "$DB_PATH/$current_db/$table_name" ]; do
     echo '+---------------------------------+'
     echo "Enter table name"
     echo '+---------------------------------+'
@@ -28,44 +26,41 @@ typeset -i counter=1
 typeset -i index=0
 
 #populate data_type & col_names arrays
-type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f 1`
-col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f 1`
+type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
+col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 
-if [ -z $type ]
-then
+if [ -z $type ]; then
     echo '+---------------------------------+'
     echo "This table has no structure!"
     echo '+---------------------------------+'
     exit 1
 fi
 
-while [ ! -z "$type" ]
-do
+while [ ! -z "$type" ]; do
     counter+=$((1))
 
-	data_type[$index]=$type
+    data_type[$index]=$type
     col_names[$index]=$col_name
 
-	index+=$((1))
+    index+=$((1))
 
-    col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f $counter`
-    type=`awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f $counter`
+    col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter)
+    type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter)
 done
 
 # select all
 echo '+---------------------------------+'
-select select in "all" "where"
-do
+select select in "all" "where"; do
     case $select in
-    all ) 
-        for x in "`awk 'NR>2{print p}{p=$0}' "$DB_PATH/$current_db/$table_name" `"
-        do
-	        echo "$x"
+    all)
+        for x in "$(awk 'NR>2{print p}{p=$0}' "$DB_PATH/$current_db/$table_name")"; do
+            echo "$x"
         done
         exit 0
-    break;;
-    where ) break;;
-    * ) echo "Wrong Choice" ;;
+        break
+        ;;
+    where) break ;;
+    *) echo "Wrong Choice" ;;
     esac
 done
 echo '+---------------------------------+'
@@ -78,14 +73,12 @@ read -r choice
 echo '+----------------------------------------------------+'
 
 ## check input
-if ! [[ $choice =~ ^[0-9]+$ ]] 
-then
-	echo '+---------------------------------+'
+if ! [[ $choice =~ ^[0-9]+$ ]]; then
+    echo '+---------------------------------+'
     echo "Enter Vaild Choice !"
     echo '+---------------------------------+'
     exit 1
-elif (( $choice > $max_columns || $choice <= 0 )) 
-then
+elif (($choice > $max_columns || $choice <= 0)); then
     echo '+---------------------------------+'
     echo "PLease enter a valid choice"
     echo '+---------------------------------+'
@@ -97,18 +90,16 @@ echo "Where column $choice = 'enter value' "
 read -r target_value
 echo '+--------------------------------------------+'
 
-values=`awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name"`
+values=$(awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name")
 
-if [ "$values" ]
-then
+if [ "$values" ]; then
     echo '+---------------------------------------------------------------------------+'
-	for x in "`awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name"`"
-	do
-		echo "$x"
-	done
+    for x in "$(awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name")"; do
+        echo "$x"
+    done
     echo '+----------------------------------------------------------------------------+'
 else
     echo '+---------------------------------+'
-	echo "No values were found"
+    echo "No values were found"
     echo '+---------------------------------+'
 fi

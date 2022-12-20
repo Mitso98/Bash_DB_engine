@@ -56,7 +56,7 @@ if [[ $(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $t
     exit 1
 fi
 
-$(cut -d'|' -f $target_col_pos --complement "$DB_PATH/$current_db/$table_name" > "$DB_PATH/$current_db/$table_name.tmp")
+$(cut -d'|' -f $target_col_pos --complement "$DB_PATH/$current_db/$table_name" >"$DB_PATH/$current_db/$table_name.tmp")
 $(mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name")
 
 echo "Column $col_name_ref has been deleted"
