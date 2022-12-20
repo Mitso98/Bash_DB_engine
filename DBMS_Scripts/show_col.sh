@@ -19,5 +19,6 @@ do
 done
 
 
-`awk -F'|' 'NR==2{print}' "$DB_PATH/$current_db/$table_name"`
+awk -F'|' 'NR==2{print}' "$DB_PATH/$current_db/$table_name"
+
 exit 0

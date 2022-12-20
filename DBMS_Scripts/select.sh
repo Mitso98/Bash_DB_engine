@@ -54,10 +54,11 @@ select select in "all" "where"
 do
     case $select in
     all ) 
-        for x in `awk 'NR>2{print p}{p=$0}' "$DB_PATH/$current_db/$table_name" `
+        for x in "`awk 'NR>2{print p}{p=$0}' "$DB_PATH/$current_db/$table_name" `"
         do
-	        echo $x
+	        echo "$x"
         done
+        exit 0
     break;;
     where ) break;;
     * ) echo "Wrong Choice" ;;
@@ -91,10 +92,24 @@ values=`awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print
 
 if [ "$values" ]
 then
-	for x in `awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name"`
+	for x in "`awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name"`"
 	do
-		echo $x
+		echo "$x"
 	done
 else
 	echo "No values were found"
+fi
+
+#!/bin/bash
+
+## exit after where
+## enhance UI
+
+source ./db_root_path.sh
+current_db=`cat "$DB_PATH/current_db"`
+
+if [ -z $current_db ]
+then
+	echo "You are not connected to DB"
+	exit 1
 fi

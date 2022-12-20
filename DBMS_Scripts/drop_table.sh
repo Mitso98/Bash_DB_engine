@@ -14,7 +14,8 @@ fi
 
 if [ $# -eq 0 ]
 then
-	read table_name
+	echo -e "Enter table name: \c"
+	read -r table_name
 fi
 
 if ! [[ $table_name =~ ^[A-Za-z].* ]]
