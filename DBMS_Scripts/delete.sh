@@ -110,7 +110,7 @@ then
             for((i=1;i<=max_columns;i++))
             do
                 x="`cut -d'|' -f $i <<< "$record"`"
-                if [[ "$x" == "$target_value" && "$(( col_pos + 1 ))" == "$i" && "$j" > 2 ]]
+                if [[ "$x" == "$target_value" && "$(( col_pos + 1 ))" == "$i" && "$j" > "2" ]]
                 then
                     found=1
                     echo -n "|" >> "$DB_PATH/$current_db/$table_name.tmp"

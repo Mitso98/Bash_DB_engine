@@ -495,11 +495,7 @@ do
             then
                 echo "Found"
                 found=1
-
-                for x in  "${col_index_to_change[@]}"
-                do 
-                    echo -n "${updated[$x]}|" >> "$DB_PATH/$current_db/$table_name.tmp"
-                done
+                echo -n "${updated[$x]}|" >> "$DB_PATH/$current_db/$table_name.tmp"
             else
                 echo -n "$x|" >> "$DB_PATH/$current_db/$table_name.tmp"
             fi
