@@ -9,13 +9,16 @@ typeset curr=`cat $DB_PATH/current_db`
 
 if [ -z $current_db ]
 then
+    echo '+---------------------------------+'
 	echo "You are not connected to DB"
+    echo '+---------------------------------+'
 	exit 1
 fi
 
+echo '+---------------------------------+'
 echo "Enter DB Name to Drop : "
 read -r DB
-
+echo '+---------------------------------+'
 
 if [ -d "$DB_PATH/$DB" ]
     then 	
@@ -26,11 +29,15 @@ if [ -d "$DB_PATH/$DB" ]
 
         else 
                     rm -r "$DB_PATH/$DB"
+                    echo '+-------------------------------------+'
                     echo "The $DB Data Base Droped Successfuly"
+                    echo '+--------------------------------------+'
         
             exit 0
         fi
     else
+            echo '+---------------------------------+'
             echo "PLease enter a valid DB name"
+            echo '+---------------------------------+'
             exit 1 
 fi

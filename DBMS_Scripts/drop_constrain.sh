@@ -5,11 +5,14 @@ current_db=`cat "$DB_PATH/current_db"`
 
 if [ -z $current_db ]
 then
+    echo '+---------------------------------+'
 	echo "You are not connected to DB"
+    echo '+---------------------------------+'
 	exit 1
 fi
 
 # get table name
+echo '+---------------------------------+'
 echo "Enter table name"
 read -r table_name
 while [ ! -f "$DB_PATH/$current_db/$table_name" ]
@@ -17,6 +20,7 @@ do
     echo "Enter table name"
     read -r table_name
 done
+echo '+---------------------------------+'
 
 declare -a col_type
 declare -a col_names
@@ -29,7 +33,9 @@ col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f
 
 if [ -z $type ]
 then
+    echo '+---------------------------------+'
     echo "THis table has no structure!"
+    echo '+---------------------------------+'
     exit 1
 fi
 
@@ -48,19 +54,24 @@ done
 
 ## select column
 max_columns=${#col_names[@]}
+echo '+---------------------------------+'
 echo "Choose which column you want to drop it's constrain"
 echo "Choose from 1 to $max_columns"
 read -r col_pos
+echo '+---------------------------------+'
 
 ## check validity
 if ! [[ $col_pos =~ ^[0-9]+$ ]] 
 then
-	
+    echo '+---------------------------------+'
     echo "Enter Vaild Choice !"
+    echo '+---------------------------------+'
     exit 1
 elif (( $col_pos > $max_columns || $col_pos <= 0 )) 
 then
+    echo '+---------------------------------+'
     echo "PLease enter a valid choice"
+    echo '+---------------------------------+'
     exit 1
 fi
 
@@ -69,7 +80,9 @@ fi
 
 if [[ "${col_type[$col_pos]}" != *":"* ]]
 then
+    echo '+---------------------------------+'
     echo "This column has no constrains"
+    echo '+---------------------------------+'
     exit 1
 fi
 
@@ -101,14 +114,14 @@ done
 
 if [[ "$found" == "0" ]]
 then
+    echo '+---------------------------------+'
     echo "No values were matched"
+    echo '+---------------------------------+'
     exit 1
 fi
-
+echo '+---------------------------------+'
 echo "Constrain has been droped"
+echo '+---------------------------------+'
+
 `mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name"`;
 exit 0
-
-
-
-

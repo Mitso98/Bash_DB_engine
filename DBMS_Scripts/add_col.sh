@@ -9,17 +9,21 @@ declare col_name
 declare col_type
 
 if [ -z $current_db ]; then
+    echo '+------------------------------------+'
     echo "You are not connected to DB"
+    echo '+------------------------------------+'
     exit 1
 fi
 
 # get table name
+echo '+------------------------------------+'
 echo "Enter table name"
 read -r table_name
 while [ ! -f "$DB_PATH/$current_db/$table_name" ]; do
     echo "Enter table name"
     read -r table_name
 done
+echo '+------------------------------------+'
 
 has_pk=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d ':' -f 2)
 # To know whther we have PK at the table or not
@@ -29,11 +33,15 @@ else
     has_pk=0
 fi
 
+echo '+------------------------------------+'
 echo "Enter column name"
 read -r col_name
+echo '+------------------------------------+'
 
 if ! [[ "$col_name" =~ ^[A-Za-z].* ]]; then
+    echo '+------------------------------------+'
     echo "PLease enter a valid name"
+    echo '+------------------------------------+'
     exit 1
 fi
 
@@ -43,7 +51,9 @@ check_col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d 
 while [[ $check_col_name ]]; do
     ((index += 1))
     if [[ $col_name == $check_col_name ]]; then
+        echo '+------------------------------------+'
         echo "Column name must be unique"
+        echo '+------------------------------------+'
         col_is_unique=0
         exit 1
     else
@@ -51,14 +61,19 @@ while [[ $check_col_name ]]; do
     fi
 done
 
+echo '+------------------------------------+'
 echo "Enter column type: str or int"
 read -r col_type
+echo '+------------------------------------+'
 
 if [[ $col_type != "str" && $col_type != "int" ]]; then
+    echo '+------------------------------------+'
     echo "PLease enter a valid data type"
+    echo '+------------------------------------+'
     exit 1
 fi
 
+echo '+----------------------------------------------------+'
 # if table has no PK u may assghin one
 if [ $has_pk -eq 0 ]; then
     echo "Do you want to assighn this column as PK"
@@ -78,7 +93,7 @@ if [ $has_pk -eq 0 ]; then
 else
     has_pk=""
 fi
-
+echo '+-----------------------------------------------------+'
 # modify data
 row_type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name")
 row_col=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name")

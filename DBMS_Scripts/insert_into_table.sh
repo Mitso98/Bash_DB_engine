@@ -8,7 +8,9 @@ typeset -i counter=1
 typeset -i index=0
 if [ -z $current_db ]
 then
+    echo '+---------------------------------+'
 	echo "You are not connected to DB"
+    echo '+---------------------------------+'
 	exit 1
 fi
 # get table name
@@ -16,8 +18,10 @@ echo "Enter table name"
 read -r table_name
 while [ ! -f "$DB_PATH/$current_db/$table_name" ]
 do
+    echo '+---------------------------------+'
     echo "Enter table name"
     read -r table_name
+    echo '+---------------------------------+'
 done
 
 
@@ -27,7 +31,9 @@ col_name=`awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name"  | cut -d '|' -f
 
 if [ -z $type ]
 then
-    echo "THis table has no structure!"
+    echo '+---------------------------------+'
+    echo "This table has no structure!"
+    echo '+---------------------------------+'
     exit 1
 fi
 while [ ! -z "$type" ]
@@ -68,7 +74,9 @@ do
 		do
 	 		if [[ $data == $x ]]
 			then
+				echo '+---------------------------------+'
 				echo "PK must be unique"
+				echo '+---------------------------------+'
 				dublicate=1
 				break
 			fi
@@ -93,15 +101,19 @@ do
     then
         row[$index]="$data|"
     else
+		echo '+---------------------------------+'
 		echo "PLease enter valid data"
+		echo '+---------------------------------+'
 		continue
 	fi	
 		(( counter += 1))
     	(( index += 1 ))
 done
 
+echo '+-----------------------------------------------+'
 for x in "${row[@]}"
 do
 	echo -e "$x\c" >> "$DB_PATH/$current_db/$table_name"
 done
 echo "" >> "$DB_PATH/$current_db/$table_name"
+echo '+-----------------------------------------------+'

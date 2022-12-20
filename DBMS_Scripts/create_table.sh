@@ -8,17 +8,23 @@ declare -i ColNum
 current_db=$(cat "$DB_PATH/current_db")
 
 if [ -z $current_db ]; then
+	echo '+---------------------------------+'
 	echo "You are not connected to DB"
+	echo '+---------------------------------+'
 	exit 1
 fi
 
 if [ $# -eq 0 ]; then
+	echo '+---------------------------------+'
 	echo -e "Enter table name : \c"
+	echo '+---------------------------------+'
 	read -r table_name
 fi
 
 if ! [[ $table_name =~ ^[A-Za-z].* ]]; then
+	echo '+---------------------------------+'
 	echo "PLease enter a valid name"
+	echo '+---------------------------------+'
 	exit 1
 fi
 
@@ -30,7 +36,9 @@ if [ "$(ls -A "$DB_PATH/$current_db")" ]; then
 		tables_lower=$(echo "${tables,,}")
 
 		if [ "$tables_lower" = "$table_name_lower" ]; then
+			echo '+---------------------------------+'
 			echo "This table already exists"
+			echo '+---------------------------------+'
 			exit 1
 		fi
 
@@ -42,13 +50,16 @@ echo -e "ENTER Number of Colmns : \c"
 read -r Col_Num
 
 if [ "$Col_Num" = "0" ]; then
+	echo '+---------------------------------+'
 	echo "Enter Number not zero!!"
+	echo '+---------------------------------+'
 	exit
 fi
 
 if [[ ! "$Col_Num" =~ ^[0-9]+$ ]]; then
-
+	echo '+---------------------------------+'
 	echo "Enter Vaild Number !!"
+	echo '+---------------------------------+'
 	exit
 fi
 
@@ -60,12 +71,15 @@ declare col_name
 declare col_type
 
 while [ $counter -le $Col_Num ]; do
+	echo '+---------------------------------+'
 	echo -e "Enter Name of Column $counter : \c "
-
 	read -r col_name
+	echo '+---------------------------------+'
 
 	if ! [[ "$col_name" =~ ^[A-Za-z].* ]]; then
+		echo '+---------------------------------+'
 		echo "PLease enter a valid name"
+		echo '+---------------------------------+'
 		exit 1
 	fi
 
@@ -74,12 +88,15 @@ while [ $counter -le $Col_Num ]; do
 		col_lower=$(echo "${col,,}")
 
 		if [ "$col_name_lower" = "$col_lower" ]; then
+			echo '+---------------------------------+'
 			echo "This Column already existed"
+			echo '+---------------------------------+'
 			exit 1
 		fi
 
 	done
 
+	echo '+---------------------------------+'
 	echo "Type of Column $col_name: "
 	PS3="Enter your Choice >"
 	select type in "int" "str"; do
@@ -95,7 +112,7 @@ while [ $counter -le $Col_Num ]; do
 		*) echo "Wrong Choice" ;;
 		esac
 	done
-
+	echo '+---------------------------------+'
 	pk=0
 	for col in ${Columns_dt[@]}; do
 		if [[ $col = *":pk"* ]]; then
@@ -104,6 +121,7 @@ while [ $counter -le $Col_Num ]; do
 		fi
 	done
 
+	echo '+---------------------------------+'
 	if [ $pk = 0 ]; then
 
 		echo "Make PrimaryKey ? "
@@ -119,6 +137,7 @@ while [ $counter -le $Col_Num ]; do
 			esac
 		done
 	fi
+	echo '+---------------------------------+'
 
 	Columns_names[$counter]="$col_name"
 	Columns_dt[$counter]="$col_type"
@@ -149,7 +168,11 @@ for col in "${Columns_names[@]}"; do
 done
 printf "%s" >>"$table_file"
 
+echo '+---------------------------------+'
 echo "The Table Created Successfuly :)"
+echo '+---------------------------------+'
 if [ $pk = 0 ]; then
+	echo '+---------------------------------+'
 	echo "Your Table has not  PK Column :)"
+	echo '+---------------------------------+'
 fi
