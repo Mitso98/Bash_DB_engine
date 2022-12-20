@@ -1,43 +1,60 @@
 #!/bin/bash
 
-declare -a arr
-declare row
+declare -a index
+declare -a updated
+index[1]="1"
+index[2]="2"
+updated[1]="6"
+updated[2]="ahmed"
+declare -a row_indexs
 
-col_pos=2
-col_names=("c1" "c2" "c3" "")
-col_type=("int" "str:pk" "int")
-max=${#col_names[@]}
+n=`awk -F"|" -v pos=2 -v target_value="omar" '{if($pos==target_value){print NR;}}' $1`
 
-
-whole_row=0
-specific_record=0
-select select in "specific_record" "whole_row"
+declare -i i=1
+for x in `cut -d " " -f1 <<< $n`
 do
-    case $select in
-    specific_record ) 
-        specific_record=1
-    break;;
-    whole_row ) 
-        whole_row=1
-    break;;
-    * ) echo "Wrong Choice" ;;
-    esac
+
+    row_indexs[$i]=$x
+    i=$i+1
 done
 
-## decrease position by one to match array index
-(( col_pos -= 1 ))
+updated_row="55|sasa|"
 
-# delete specific record
-if [ $specific_record -eq 1 ]
-then
-    # Will we delte PK
-    if [[ ${col_type[$col_pos]} == *":"* ]]
-    then
-        echo "You can not delte PK record"
-        exit 1
+#for x in "${row_indexs[@]}"
+#do
+    if [[ !" ${row_indexs[@]} " =~ "" ]]; then
+    # commands here when array doesn't contains a value
+    echo found
     fi
-fi
+   # old_row=`awk -F "|" -v pos=$x 'NR==pos{print $0}' test1`
+    
+   #echo $old_row
+
+   #sed -i ''$x's/'"$old_row"'/'"$updated_row"'/g' test1
+
+#done
 
 
 
-	
+
+
+<< "COMMENT"
+x=`awk -F"|" '{if($2=="omar"){{sub($2,"ahmed")};print $2}}1 ' $1 | sed -n "${n[1]}"p `
+
+echo "${n[1]}"
+echo "$x"
+
+oldValue=`awk -F"|" '{if($2=="omar"){print $2}} ' $1`
+echo "$oldValue"
+
+
+#sed -i ''${n[1]}'s/'$oldValue'/'$x'/g' $1
+
+
+
+for i in "${index[@]}"
+    do
+    echo "${updated[i]}"
+    done
+
+COMMENT

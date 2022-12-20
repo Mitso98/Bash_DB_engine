@@ -154,13 +154,47 @@ if user created db_root manually we will face many issues.
                     
             ##OFS=| "$DB_PATH/$current_db/$table_name"`
                
+               ########################################################
+                awk -F"|" '{if(NR>2){if($2=="omar amgad"){{sub($2,"ahmed")}}}}1' test1 > test2
                
+               ##########################
+               x=`awk -F"|" '{if(NR>2){if($2=="omar amgad"){{sub($2,"ahmed")}}}}1' test1`
+               echo "$x" > test1
                
+               awk -F"|" -v rr=$y -v ss=$x -v pos=2 'NR>2{if($pos == rr ){{sub($pos,ss)}}}1' test1 | sed '1,2d' > test1.tmp
+
                
-               
-               
-               
-               
-               
-               
-                echo $helo
+            	echo $helo
+				
+				sed -i ''$z's '$x' '$y' g' test1
+```
+
+
+
+echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
+                                                                 read -r new_pk
+                                                                        if ! [[ ${col_dt[$pk_index]} == *"int"* && $new_pk =~ ^-?[0-9]+$ ]] || [[ ${col_dt[$pk_index]} == *"str"* && $new_pk =~ ^[A-Za-z].* ]]
+                                                                            then
+                                                                                echo "PLease enter valid data"
+                                                                                exit 1
+                                                                            fi
+                                                              declare -i i=1
+                                                               while [ $i -le $Num_records ] 
+                                                                    do
+                                                                        x=`cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d'|sed "${i}p;d" `
+                                                                        if [ "$x" = "$new_pk" ]
+                                                                            then 
+                                                                            echo "PK must be unique"
+                                                                            exit 1
+                                                                        fi	
+                                                                     i=$i+1
+                                                                 done 
+
+
+
+
+
+
+
+
+```
