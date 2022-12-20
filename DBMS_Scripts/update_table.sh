@@ -223,7 +223,7 @@ select Choice in "${choices[@]}"; do
                                     i=$i+1
                                 done
                                 col_index_to_change[$pk_index]=$pk_index
-                                updated[$pk_index]="null"
+                                updated[$pk_index]="$new_pk"
 
                             else
 
@@ -350,6 +350,8 @@ select Choice in "${choices[@]}"; do
                                 fi
                                 i=$i+1
                             done
+                            col_index_to_change[$pk_index]=$pk_index
+                            updated[$pk_index]="$new_pk"
                         else
                             echo "PK will be Duplicated You can not Change it :) !!"
                             col_index_to_change[$pk_index]=$pk_index
@@ -405,6 +407,8 @@ select Choice in "${choices[@]}"; do
                                     fi
                                     i=$i+1
                                 done
+                                col_index_to_change[$pk_index]=$pk_index
+                                updated[$pk_index]="$new_pk"
                             else
                                 echo "PK will be Duplicated You can not Change it :) !!"
                                 col_index_to_change[$pk_index]=$pk_index
