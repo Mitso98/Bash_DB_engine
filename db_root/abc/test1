@@ -1,7 +1,12 @@
 int:pk|str|
 emp id|name|
+<<<<<<< HEAD
 1|kk|
 99|Mitso|
+=======
+1|sss|
+6|saasa|
+>>>>>>> 55d68b5 (last of last v3)
 3|ali ahmed|
 4|gg|
 5|omar|

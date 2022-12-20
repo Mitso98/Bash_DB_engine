@@ -150,7 +150,11 @@ select Choice in "${choices[@]}"; do
                             break
                             ;;
                             ################################################################ NO ################################################################333
-                        no) break ;;
+                        no)
+                            updated[$pk_index]="null"
+                            col_index_to_change[$pk_index]=$pk_index
+                            break
+                            ;;
                         *) echo "Wrong Choice" ;;
 
                         esac
@@ -197,8 +201,8 @@ select Choice in "${choices[@]}"; do
                                 break
                                 ;;
                             no)
-                                updated[$index]="NULL"
-                                col_index_to_change[$index]=$index
+                                updated[$pk_index]="null"
+                                col_index_to_change[$pk_index]=$pk_index
                                 break
                                 ;;
                             *) echo "Wrong Choice" ;;
