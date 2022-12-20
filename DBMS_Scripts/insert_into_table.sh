@@ -27,14 +27,14 @@ done
 declare -i Num_records=`awk '{print}' "$DB_PATH/$current_db/$table_name" | sed '1,2d' | wc -l`
 
 ######### get pk index ###############
-	for col in ${Columns_dt[@]}
-	    do	
-		    if [[ $col = *":pk"* ]] 
-			    then 
-                break 
-                fi
-            pk_index=$pk_index+1        
-		done
+for col in ${Columns_dt[@]}
+do	
+	if [[ $col = *":pk"* ]] 
+		then 
+		break 
+		fi
+	pk_index=$pk_index+1        
+done
         
 
 
