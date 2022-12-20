@@ -27,7 +27,7 @@ done
 declare -i Num_records=`awk '{print}' "$DB_PATH/$current_db/$table_name" | sed '1,2d' | wc -l`
 
 ######### get pk index ###############
-for col in ${Columns_dt[@]}
+for col in ${data_type[@]}
 do	
 	if [[ $col = *":pk"* ]] 
 		then 
@@ -129,4 +129,4 @@ do
     	(( index += 1 ))
 done
 
-echo  ${row[@]} >> "$DB_PATH/$current_db/$table_name"  
+echo  "${row[@]}" >> "$DB_PATH/$current_db/$table_name"  
