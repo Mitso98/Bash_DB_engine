@@ -7,8 +7,13 @@ declare table_name
 current_db=$(cat "$DB_PATH/current_db")
 
 if [ -z $current_db ]; then
-    echo "You are not connected to DB"
-    exit 1
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 fi
 
 # get table name
@@ -101,8 +106,14 @@ select Choice in "${choices[@]}"; do
             done
 
             if [ "$flg" = "0" ]; then
-                echo "this value does not exisets"
-                exit 1
+
+                clear
+                echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}this value does not exisets${NC}✋   ${BBlue}|${NC}"
+                echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                read press
+                Table_Menu
             fi
 
             n=$(awk -F"|" -v pos=$col_index -v target_value="$col_cond" '{if($pos==target_value){print NR;}}' "$DB_PATH/$current_db/$table_name")
@@ -140,8 +151,13 @@ select Choice in "${choices[@]}"; do
                             while [ $i -le $Num_records ]; do
                                 x=$(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d' | sed "${i}p;d")
                                 if [ "$x" = "$new_pk" ]; then
-                                    echo "PK must be unique"
-                                    exit 1
+                                    clear
+                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                    read press
+                                    Table_Menu
                                 fi
                                 i=$i+1
                             done
@@ -176,8 +192,14 @@ select Choice in "${choices[@]}"; do
                             elif [ -z $data ]; then
                                 updated[$index]="$data"
                             else
-                                echo "PLease enter valid data"
-                                exit 1
+
+                                clear
+                                echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                read press
+                                Table_Menu
                             fi
                             col_index_to_change[$index]=$index
                         fi
@@ -214,15 +236,27 @@ select Choice in "${choices[@]}"; do
                                 echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
                                 read -r new_pk
                                 if ! [[ ${col_dt[$pk_index]} == *"int"* && $new_pk =~ ^-?[0-9]+$ ]] || [[ ${col_dt[$pk_index]} == *"str"* && $new_pk =~ ^[A-Za-z].* ]]; then
-                                    echo "PLease enter valid data"
-                                    exit 1
+
+                                    clear
+                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                    read press
+                                    Table_Menu
                                 fi
                                 declare -i i=1
                                 while [ $i -le $Num_records ]; do
                                     x=$(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d' | sed "${i}p;d")
                                     if [ "$x" = "$new_pk" ]; then
-                                        echo "PK must be unique"
-                                        exit 1
+
+                                        clear
+                                        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
+                                        echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                        read press
+                                        Table_Menu
                                     fi
                                     i=$i+1
                                 done
@@ -243,8 +277,14 @@ select Choice in "${choices[@]}"; do
                                 elif [ -z $data ]; then
                                     updated[$index]="$data"
                                 else
-                                    echo "PLease enter valid data"
-                                    exit 1
+
+                                    clear
+                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                    read press
+                                    Table_Menu
                                 fi
                                 col_index_to_change[$index]=$index
                             fi
@@ -279,8 +319,13 @@ select Choice in "${choices[@]}"; do
             col_index=$col_index+1
         done
         if [ $flg = 0 ]; then
-            echo "Not Found !!"
-            exit 1
+            clear
+            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Not Found !!${NC}✋   ${BBlue}|${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+            read press
+            Table_Menu
         fi
 
         echo -e "Update ($table_name) where ("${col_names[$col_index]}") ("${col_dt[$col_index]}"): \c"
@@ -297,8 +342,14 @@ select Choice in "${choices[@]}"; do
         done
 
         if [ $flg = 0 ]; then
-            echo "this value does not exisets"
-            exit 1
+
+            clear
+            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}this value does not exisets${NC}✋   ${BBlue}|${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+            read press
+            Table_Menu
         fi
 
         n=$(awk -F"|" -v pos=$col_index -v target_value="$col_cond" '{if($pos==target_value){print NR;}}' "$DB_PATH/$current_db/$table_name")
@@ -331,8 +382,14 @@ select Choice in "${choices[@]}"; do
                         elif [ -z $data ]; then
                             updated[$index]="$data"
                         else
-                            echo "PLease enter valid data"
-                            exit 1
+
+                            clear
+                            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                            echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                            echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                            read press
+                            Table_Menu
                         fi
                         col_index_to_change[$index]=$index
 
@@ -342,15 +399,27 @@ select Choice in "${choices[@]}"; do
                             echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
                             read -r new_pk
                             if ! [[ ${col_dt[$pk_index]} == *"int"* && $new_pk =~ ^-?[0-9]+$ ]] || [[ ${col_dt[$pk_index]} == *"str"* && $new_pk =~ ^[A-Za-z].* ]]; then
-                                echo "PLease enter valid data"
-                                exit 1
+
+                                clear
+                                echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                read press
+                                Table_Menu
                             fi
                             declare -i i=1
                             while [ $i -le $Num_records ]; do
                                 x=$(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d' | sed "${i}p;d")
                                 if [ "$x" = "$new_pk" ]; then
-                                    echo "PK must be unique"
-                                    exit 1
+
+                                    clear
+                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                    read press
+                                    Table_Menu
                                 fi
                                 i=$i+1
                             done
@@ -399,15 +468,27 @@ select Choice in "${choices[@]}"; do
                                 echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
                                 read -r new_pk
                                 if ! [[ ${col_dt[$pk_index]} == *"int"* && $new_pk =~ ^-?[0-9]+$ ]] || [[ ${col_dt[$pk_index]} == *"str"* && $new_pk =~ ^[A-Za-z].* ]]; then
-                                    echo "PLease enter valid data"
-                                    exit 1
+
+                                    clear
+                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                    read press
+                                    Table_Menu
                                 fi
                                 declare -i i=1
                                 while [ $i -le $Num_records ]; do
                                     x=$(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d' | sed "${i}p;d")
                                     if [ "$x" = "$new_pk" ]; then
-                                        echo "PK must be unique"
-                                        exit 1
+
+                                        clear
+                                        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
+                                        echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                        read press
+                                        Table_Menu
                                     fi
                                     i=$i+1
                                 done
@@ -432,8 +513,14 @@ select Choice in "${choices[@]}"; do
                             elif [ -z $data ]; then
                                 updated[$index]="$data"
                             else
-                                echo "PLease enter valid data"
-                                exit 1
+
+                                clear
+                                echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                read press
+                                Table_Menu
                             fi
                             col_index_to_change[$index]=$index
 
@@ -504,9 +591,21 @@ if ! [[ "${#updated[@]}" == "$count_null" ]]; then
     done
 
     $(mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name")
-    echo "Table was Updated succesufully :)"
-    exit 0
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Table was Updated succesufully :)${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 else
-    echo "No values were Updated"
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}No values were Updated${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 fi

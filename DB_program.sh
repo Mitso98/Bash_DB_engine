@@ -92,7 +92,9 @@ function Table_Menu {
     echo -e "${BBlue}\t\t\t\t\t\t7)${NC}${BWhite} Delete From Table ${NC}\n"
     echo -e "${BBlue}\t\t\t\t\t\t8)${NC}${BWhite} Select From Table${NC}\n"
     echo -e "${BBlue}\t\t\t\t\t\t9)${NC}${BWhite} Show Columns${NC}\n"
-    echo -e "${BBlue}\t\t\t\t\t\t10)${NC}${BWhite} Disconnect From Current DataBase${NC}\n"
+    echo -e "${BBlue}\t\t\t\t\t\t10)${NC}${BWhite} Count Aggregate Function${NC}\n"
+    echo -e "${BBlue}\t\t\t\t\t\t11)${NC}${BWhite} Sum Aggregate Function${NC}\n"
+    echo -e "${BBlue}\t\t\t\t\t\t12)${NC}${BWhite} Disconnect From Current DataBase${NC}\n"
     echo -e "${BYellow}\t\t\t\t\t\t=> Enter Your Choice:${NC} \c "
     read char
 
@@ -136,8 +138,16 @@ function Table_Menu {
         clear
         source DBMS_Scripts/show_col.sh
         ;;
-
     10)
+        clear
+        source DBMS_Scripts/count_row.sh
+        ;;
+    11)
+        clear
+        source DBMS_Scripts/sum.sh
+        ;;
+
+    12)
         clear
         source DBMS_Scripts/exit_db.sh
         echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
