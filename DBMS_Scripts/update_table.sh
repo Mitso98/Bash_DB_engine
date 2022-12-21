@@ -361,11 +361,11 @@ select Choice in "${choices[@]}"; do
         done
 
         PS3="Choose your Option>"
-        opt=("Update Values of All Columns" "Update Values of Specific Columns")
+        options=("Update Values of All Columns" "Update Values of Specific Columns")
         select var in "${options[@]}"; do
             case $var in
 
-            "${opt[0]}")
+            "${options[0]}")
 
                 index=1
                 for col in "${col_names[@]}"; do
@@ -438,7 +438,7 @@ select Choice in "${choices[@]}"; do
                 break
                 ;;
 
-            "${opt[1]}")
+            "${options[1]}")
 
                 index=1
                 for col in "${col_names[@]}"; do
