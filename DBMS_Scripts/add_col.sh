@@ -20,14 +20,13 @@ if [ -z $current_db ]; then
 fi
 
 # get table name
-echo '+------------------------------------+'
+
 echo -e "\n\t\t\t\t\t\t${BYellow}Enter table name : ${NC}\c"
 read -r table_name
 while [ ! -f "$DB_PATH/$current_db/$table_name" ]; do
     echo -e "\n\t\t\t\t\t\t${BYellow}Enter table name : ${NC}\c"
     read -r table_name
 done
-echo '+------------------------------------+'
 
 has_pk=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d ':' -f 2)
 # To know whther we have PK at the table or not
@@ -37,10 +36,8 @@ else
     has_pk=0
 fi
 
-echo '+------------------------------------+'
 echo -e "\n\t\t\t\t\t\t${BYellow}Enter column name : ${NC}\c"
 read -r col_name
-echo '+------------------------------------+'
 
 if ! [[ "$col_name" =~ ^[A-Za-z].* ]]; then
     clear
@@ -71,10 +68,8 @@ while [[ $check_col_name ]]; do
     fi
 done
 
-echo '+------------------------------------+'
 echo -e "\n\t\t\t\t\t\t${BYellow}Enter column type: str or int: ${NC}\c"
 read -r col_type
-echo '+------------------------------------+'
 
 if [[ $col_type != "str" && $col_type != "int" ]]; then
     clear
@@ -86,7 +81,6 @@ if [[ $col_type != "str" && $col_type != "int" ]]; then
     AlterMenu
 fi
 
-echo '+----------------------------------------------------+'
 # if table has no PK u may assghin one
 if [ $has_pk -eq 0 ]; then
     echo "Do you want to assighn this column as PK"
@@ -106,7 +100,6 @@ if [ $has_pk -eq 0 ]; then
 else
     has_pk=""
 fi
-echo '+-----------------------------------------------------+'
 
 # modify data
 row_type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name")

@@ -83,5 +83,5 @@ if [ $column -eq 1 ]; then
     echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
     echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
     read press
-    AlterMenu
+    Table_Menu
 fi
