@@ -29,7 +29,7 @@ if [ ! -f "$DB_PATH/$current_db/$table_name" ]; then
 	echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
 	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
 	read press
-	AlterMenu
+	Table_Menu
 fi
 
 #store data types & col_names
