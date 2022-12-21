@@ -45,6 +45,18 @@ if [[ $DB =~ ^[A-Za-z].* ]]; then
 
 		echo "$DB" >$DB_PATH/current_db
 		Table_Menu
+
+	else
+
+		clear
+		echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=======================================${NC}"
+		echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Please enter a valid input!${NC}   ${BBlue}|${NC}"
+		echo -e "${BBlue}\t\t\t\t\t\t=======================================${NC}\n\n"
+		echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+		read press
+		clear
+		mainMenu
+
 	fi
 else
 	clear

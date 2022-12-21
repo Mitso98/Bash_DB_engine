@@ -75,14 +75,12 @@ while [[ $index < $col_no ]]; do
 	# this column is PK
 	if [[ ${data_type[$index]} == *":"* ]]; then
 		if [ -z $data ]; then
-			echo "\n\t\t\t\t\t\t${BRed}This column can not be empty${NC}"
+			echo -e "\n\t\t\t\t\t\t${BRed}This column can not be empty${NC}"
 			continue
 		fi
 		for x in $(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter); do
 			if [[ $data == $x ]]; then
-				echo '+---------------------------------+'
-				echo "\n\t\t\t\t\t\t${BRed}PK must be unique${NC}"
-				echo '+---------------------------------+'
+				echo -e "\n\t\t\t\t\t\t${BRed}PK must be unique${NC}"
 				dublicate=1
 				break
 			fi
@@ -105,7 +103,7 @@ while [[ $index < $col_no ]]; do
 		row[$index]="$data|"
 	else
 
-		echo "\n\t\t\t\t\t\t${BRed}PLease enter valid data${NC}"
+		echo -e "\n\t\t\t\t\t\t${BRed}PLease enter valid data${NC}"
 
 		continue
 	fi

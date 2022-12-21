@@ -49,7 +49,6 @@ function AlterMenu {
 
     5)
         clear
-        source DBMS_Scripts/exit.sh
         echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
         echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Back To Table Control Menu${NC}👇   ${BBlue}|${NC}"
         echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
