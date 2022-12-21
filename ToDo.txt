@@ -192,9 +192,9 @@ echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
 
 
 
+sed '1d' test1 | column -t -s "|"
 
 
-
-
+db_root
 
 ```

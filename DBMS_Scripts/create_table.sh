@@ -1,31 +1,47 @@
 #!/bin/bash
 
 # IMPORT DB_PATH variable
-source ./db_root_path.sh
+source DBMS_Scripts/db_root_path.sh
 
 declare table_name
 declare -i ColNum
 current_db=$(cat "$DB_PATH/current_db")
 
 if [ -z $current_db ]; then
-	echo '+---------------------------------+'
-	echo "You are not connected to DB"
-	echo '+---------------------------------+'
-	exit 1
+
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}✋   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+	read press
+	Table_Menu
 fi
 
 if [ $# -eq 0 ]; then
-	echo '+---------------------------------+'
-	echo -e "Enter table name : \c"
-	echo '+---------------------------------+'
+
+	echo -e "\n\n\t\t\t\t\t\t${BYellow}Enter table name : ${NC}\c"
+
 	read -r table_name
+fi
+if [ -z "$table_name" ]; then
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter vaild Input${NC}✋   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+	read press
+	Table_Menu
 fi
 
 if ! [[ $table_name =~ ^[A-Za-z].* ]]; then
-	echo '+---------------------------------+'
-	echo "PLease enter a valid name"
-	echo '+---------------------------------+'
-	exit 1
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}✋   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+	read press
+	Table_Menu
 fi
 
 # check if folder is empty do not excute below command
@@ -36,31 +52,43 @@ if [ "$(ls -A "$DB_PATH/$current_db")" ]; then
 		tables_lower=$(echo "${tables,,}")
 
 		if [ "$tables_lower" = "$table_name_lower" ]; then
-			echo '+---------------------------------+'
-			echo "This table already exists"
-			echo '+---------------------------------+'
-			exit 1
+
+			clear
+			echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+			echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This table already exists${NC}✋   ${BBlue}|${NC}"
+			echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+			echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+			read press
+			Table_Menu
 		fi
 
 	done
 
 fi
 
-echo -e "ENTER Number of Colmns : \c"
+echo -e "\n\t\t\t\t\t\t${BYellow}Enter Number of Colmns : ${NC}\c"
 read -r Col_Num
 
 if [ "$Col_Num" = "0" ]; then
-	echo '+---------------------------------+'
-	echo "Enter Number not zero!!"
-	echo '+---------------------------------+'
-	exit
+
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter Number not zero!!${NC}✋   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+	read press
+	Table_Menu
 fi
 
 if [[ ! "$Col_Num" =~ ^[0-9]+$ ]]; then
-	echo '+---------------------------------+'
-	echo "Enter Vaild Number !!"
-	echo '+---------------------------------+'
-	exit
+
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter Vaild Number !!${NC}✋   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+	read press
+	Table_Menu
 fi
 
 declare -i counter=1
@@ -71,16 +99,18 @@ declare col_name
 declare col_type
 
 while [ $counter -le $Col_Num ]; do
-	echo '+---------------------------------+'
-	echo -e "Enter Name of Column $counter : \c "
+
+	echo -e "\n\t\t\t\t\t\t${BYellow}Enter Name of Column $counter ${NC}: \c "
 	read -r col_name
-	echo '+---------------------------------+'
 
 	if ! [[ "$col_name" =~ ^[A-Za-z].* ]]; then
-		echo '+---------------------------------+'
-		echo "PLease enter a valid name"
-		echo '+---------------------------------+'
-		exit 1
+		clear
+		echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t======================================${NC}"
+		echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}✋   ${BBlue}|${NC}"
+		echo -e "${BBlue}\t\t\t\t\t\t==============================================${NC}\n\n"
+		echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+		read press
+		Table_Menu
 	fi
 
 	for col in ${Columns_names[@]}; do
@@ -88,17 +118,19 @@ while [ $counter -le $Col_Num ]; do
 		col_lower=$(echo "${col,,}")
 
 		if [ "$col_name_lower" = "$col_lower" ]; then
-			echo '+---------------------------------+'
-			echo "This Column already existed"
-			echo '+---------------------------------+'
-			exit 1
+			clear
+			echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+			echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This Column already existed${NC}✋   ${BBlue}|${NC}"
+			echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+			echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+			read press
+			Table_Menu
 		fi
 
 	done
 
-	echo '+---------------------------------+'
-	echo "Type of Column $col_name: "
-	PS3="Enter your Choice >"
+	echo -e "\t${BYellow}Type of Column $col_name:${NC} "
+	PS3="	Enter your Choice >"
 	select type in "int" "str"; do
 		case $type in
 		int)
@@ -109,10 +141,10 @@ while [ $counter -le $Col_Num ]; do
 			col_type="str"
 			break
 			;;
-		*) echo "Wrong Choice" ;;
+		*) echo "\t${BRed}Wrong Choice${NC}" ;;
 		esac
 	done
-	echo '+---------------------------------+'
+	echo ""
 	pk=0
 	for col in ${Columns_dt[@]}; do
 		if [[ $col = *":pk"* ]]; then
@@ -121,11 +153,11 @@ while [ $counter -le $Col_Num ]; do
 		fi
 	done
 
-	echo '+---------------------------------+'
+	echo ""
 	if [ $pk = 0 ]; then
 
-		echo "Make PrimaryKey ? "
-		PS3="Enter your Choice >"
+		echo -e "\t${BYellow}Make PrimaryKey ? ${NC}"
+		PS3="	Enter your Choice >"
 		select Choice in "yes" "no"; do
 			case $Choice in
 			yes)
@@ -133,11 +165,10 @@ while [ $counter -le $Col_Num ]; do
 				break
 				;;
 			no) break ;;
-			*) echo "Wrong Choice" ;;
+			*) echo "\t${BRed}Wrong Choice${NC}" ;;
 			esac
 		done
 	fi
-	echo '+---------------------------------+'
 
 	Columns_names[$counter]="$col_name"
 	Columns_dt[$counter]="$col_type"
@@ -167,12 +198,16 @@ for col in "${Columns_names[@]}"; do
 	printf "$coll" >>"$table_file"
 done
 printf "%s" >>"$table_file"
+clear
+echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}The Table Created Successfuly :)${NC}😊   ${BBlue}|${NC}"
 
-echo '+---------------------------------+'
-echo "The Table Created Successfuly :)"
-echo '+---------------------------------+'
 if [ $pk = 0 ]; then
-	echo '+---------------------------------+'
-	echo "Your Table has not  PK Column :)"
-	echo '+---------------------------------+'
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Your Table has not  PK Column :):${NC}🤓   ${BBlue}|${NC}"
+	echo ""
+
 fi
+echo -e "${BBlue}\t\t\t\t\t\t==================================================${NC}\n\n"
+echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+read press
+Table_Menu

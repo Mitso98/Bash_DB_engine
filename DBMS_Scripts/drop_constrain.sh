@@ -1,25 +1,53 @@
 #!/bin/bash
 
-source ./db_root_path.sh
+source DBMS_Scripts/db_root_path.sh
 current_db=$(cat "$DB_PATH/current_db")
 
 if [ -z $current_db ]; then
-    echo '+---------------------------------+'
-    echo "You are not connected to DB"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
 fi
 
 # get table name
-echo '+---------------------------------+'
-echo "Enter table name"
-read -r table_name
-while [ ! -f "$DB_PATH/$current_db/$table_name" ]; do
-    echo "Enter table name"
-    read -r table_name
-done
-echo '+---------------------------------+'
 
+echo -e "\n\t\t\t\t\t\t${BYellow}Enter table name :${NC} \c"
+read -r table_name
+
+if [ -z "$table_name" ]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter vaild Input${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
+fi
+
+if ! [[ $table_name =~ ^[A-Za-z].* ]]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
+fi
+
+if [ ! -f "$DB_PATH/$current_db/$table_name" ]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
+fi
 declare -a col_type
 declare -a col_names
 typeset -i counter=1
@@ -30,10 +58,14 @@ type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 
 if [ -z $type ]; then
-    echo '+---------------------------------+'
-    echo "THis table has no structure!"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This table has no structure!${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
 fi
 
 while [ ! -z "$type" ]; do
@@ -50,33 +82,50 @@ done
 
 ## select column
 max_columns=${#col_names[@]}
-echo '+---------------------------------+'
-echo "Choose which column you want to drop it's constrain"
-echo "Choose from 1 to $max_columns"
+#################
+
+print=$(awk -F'|' 'NR==2{print}' "$DB_PATH/$current_db/$table_name")
+echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============${BWhite}Columns${NC}${BBlue}========================${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t${NC}      ${BWhite}$print${NC}   ${BBlue}${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+
+echo -e "\n\t\t\t\t\t\t${BYellow}Choose which column you want to drop it's constrain${NC}"
+echo -e "\n\t\t\t\t\t\t${BYellow}Choose from 1 to $max_columns :${NC} \c"
 read -r col_pos
-echo '+---------------------------------+'
 
 ## check validity
 if ! [[ $col_pos =~ ^[0-9]+$ ]]; then
-    echo '+---------------------------------+'
-    echo "Enter Vaild Choice !"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter Vaild Choice !${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
 elif (($col_pos > $max_columns || $col_pos <= 0)); then
-    echo '+---------------------------------+'
-    echo "PLease enter a valid choice"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid choice${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
 fi
 
 ## decrease position by one to match array index
 ((col_pos -= 1))
 
 if [[ "${col_type[$col_pos]}" != *":"* ]]; then
-    echo '+---------------------------------+'
-    echo "This column has no constrains"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This column has no constrains${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
 fi
 
 max_columns="${#col_names[@]}"
@@ -100,14 +149,20 @@ for ((j = 1; j < max_row; j++)); do
 done
 
 if [[ "$found" == "0" ]]; then
-    echo '+---------------------------------+'
-    echo "No values were matched"
-    echo '+---------------------------------+'
-    exit 1
-fi
-echo '+---------------------------------+'
-echo "Constrain has been droped"
-echo '+---------------------------------+'
 
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}No values were matched${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    AlterMenu
+fi
 $(mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name")
-exit 0
+clear
+echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Constrain has been droped${NC}✋   ${BBlue}|${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+read press
+AlterMenu

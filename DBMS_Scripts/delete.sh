@@ -1,24 +1,32 @@
 #!/bin/bash
 
-source ./db_root_path.sh
+source DBMS_Scripts/db_root_path.sh
 current_db=$(cat "$DB_PATH/current_db")
 
 if [ -z $current_db ]; then
-    echo '+------------------------------------+'
-    echo "You are not connected to DB"
-    echo '+------------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
 fi
 
 # get table name
-echo '+------------------------------------+'
-echo "Enter table name"
+echo -e "\n\t\t\t\t\t\t${BYellow}Enter table name :${NC} \c"
 read -r table_name
-while [ ! -f "$DB_PATH/$current_db/$table_name" ]; do
-    echo "Enter table name"
-    read -r table_name
-done
-echo '+------------------------------------+'
+
+if [ ! -f "$DB_PATH/$current_db/$table_name" ]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
+fi
 
 declare -a col_type
 declare -a col_names
@@ -30,10 +38,14 @@ type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 
 if [ -z $type ]; then
-    echo '+------------------------------------+'
-    echo "THis table has no structure!"
-    echo '+------------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This table has no structure!${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
 fi
 
 while [ ! -z "$type" ]; do
@@ -50,23 +62,35 @@ done
 
 ## select column
 max_columns=${#col_names[@]}
-echo '+--------------------------------------------------+'
-echo "Choose which column you want to delete from"
-echo "Choose from 1 to $max_columns"
+
+print=$(awk -F'|' 'NR==2{print}' "$DB_PATH/$current_db/$table_name")
+echo -e "${BBlue}\n\n\t\t\t\t\t\t==============${BWhite}Columns${NC}${BBlue}========================${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t${NC}      ${BWhite}$print${NC}   ${BBlue}${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+
+echo -e "\n\t\t\t\t\t\t${BYellow}Choose which column you want to delete from${NC}"
+echo -e "\n\t\t\t\t\t\t${BYellow}Choose from 1 to $max_columns : ${NC}\c"
 read -r col_pos
-echo '+--------------------------------------------------+'
 
 ## check validity
 if ! [[ $col_pos =~ ^[0-9]+$ ]]; then
-    echo '+------------------------------------+'
-    echo "Enter Vaild Choice !"
-    echo '+------------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter Vaild Choice !${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
 elif (($col_pos > $max_columns || $col_pos <= 0)); then
-    echo '+------------------------------------+'
-    echo "PLease enter a valid choice"
-    echo '+------------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid choice${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
 fi
 
 ## decrease position by one to match array index
@@ -75,7 +99,9 @@ fi
 # Del specific record or whole row
 whole_row=0
 specific_record=0
-echo '+------------------------------------------+'
+echo -e "\n\t\t${BYellow}You want to delete ?${NC}"
+PS3="       Enter your Choice >"
+
 select select in "specific_record" "whole_row"; do
     case $select in
     specific_record)
@@ -89,23 +115,24 @@ select select in "specific_record" "whole_row"; do
     *) echo "Wrong Choice" ;;
     esac
 done
-echo '+--------------------------------------------+'
 
 ## get the target_value
-echo '+------------------------------------+'
-echo "Enter value you want to delete"
+echo -e "\n\t\t\t\t\t\t${BYellow}Enter value you want to delete :${NC} \c"
 read -r target_value
-echo '+------------------------------------+'
 
 # delete specific record while we can not del PK specefically
 if [[ "$specific_record" == "1" ]]; then
 
     # Will we delte PK
     if [[ "${col_type[$col_pos]}" == *":"* ]]; then
-        echo '+------------------------------------+'
-        echo "You can not delete PK record"
-        echo '+------------------------------------+'
-        exit 1
+
+        clear
+        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You can not delete PK record${NC}✋   ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+        read press
+        Table_Menu
     fi
 
     max_columns="${#col_names[@]}"
@@ -129,16 +156,24 @@ if [[ "$specific_record" == "1" ]]; then
     done
 
     if [[ "$found" == "0" ]]; then
-        echo '+------------------------------------+'
-        echo "No values were matched"
-        echo '+------------------------------------+'
-        exit 1
+
+        clear
+        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}No values were matched${NC}✋   ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+        read press
+        Table_Menu
     fi
-    echo '+------------------------------------+'
-    echo "Value was succesufully deleted"
-    echo '+------------------------------------+'
     $(mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name")
-    exit 0
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Value was succesufully deleted${NC}😊   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
+
 fi
 
 if [ "$whole_row" = "1" ]; then
@@ -163,10 +198,14 @@ if [ "$whole_row" = "1" ]; then
     done
 
     if [[ "$target_pos_indx" == "0" ]]; then
-        echo '+------------------------------------+'
-        echo "No values were found"
-        echo '+------------------------------------+'
-        exit 1
+
+        clear
+        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}No values were found${NC}✋   ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+        read press
+        Table_Menu
     fi
 
     for ((i = 0; i < target_pos_indx; i++)); do
@@ -174,8 +213,11 @@ if [ "$whole_row" = "1" ]; then
         $(sed -i ""$x"d" "$DB_PATH/$current_db/$table_name")
     done
 
-    echo '+------------------------------------+'
-    echo "Value was succesufully deleted"
-    echo '+------------------------------------+'
-    exit 0
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Value was succesufully deleted${NC}😊   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
 fi

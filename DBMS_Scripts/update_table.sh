@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # IMPORT DB_PATH variable
-source ./db_root_path.sh
+source DBMS_Scripts/db_root_path.sh
 
 declare table_name
 current_db=$(cat "$DB_PATH/current_db")

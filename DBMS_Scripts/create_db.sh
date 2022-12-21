@@ -2,7 +2,7 @@
 # Create data base
 
 # IMPORT DB_PATH variable
-source ./db_root_path.sh
+source DBMS_Scripts/db_root_path.sh
 
 declare DB
 
@@ -13,25 +13,47 @@ fi
 
 # user entered DB name
 if [ $# -eq 0 ]; then
-	echo '+------------------------------------+'
-	echo -e "Enter DB name : \c"
+
+	echo -e "\n\n\t\t\t\t\t\t${BYellow}Enter DB name : ${NC}\c"
 	read -r DB
-	echo '+------------------------------------+'
+fi
+if [ -z "$DB" ]; then
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter vaild Input${NC}✋   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+	read press
+	mainMenu
 fi
 
-if [ -d "$DB_PATH/$DB" ]; then
-	echo '+------------------------------------+'
-	echo "DB already exists"
-	echo '+------------------------------------+'
-	exit 1
-elif [[ $DB =~ ^[A-Za-z].* ]]; then
+if [[ $DB =~ ^[A-Za-z].* ]]; then
+
+	if [ -d "$DB_PATH/$DB" ]; then
+		clear
+		echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+		echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}DB already exists${NC}✋   ${BBlue}|${NC}"
+		echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+		echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+		read press
+		mainMenu
+	fi
+	clear
 	mkdir "$DB_PATH/$DB"
-	echo '+------------------------------------+'
-	echo "$DB is Created Successfully"
-	echo '+------------------------------------+'
-	exit 0
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t======================================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}   ${BWhite}${BGreen}$DB${NC} is Created Successfully${NC}👌  ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t=======================================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+	read press
+	mainMenu
 else
-	echo '+------------------------------------+'
-	echo "Please enter a valid input!"
-	echo '+------------------------------------+'
+	clear
+	echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=======================================${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Please enter a valid input!${NC}   ${BBlue}|${NC}"
+	echo -e "${BBlue}\t\t\t\t\t\t=======================================${NC}\n\n"
+	echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+	read press
+	clear
+	mainMenu
+
 fi

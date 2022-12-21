@@ -1,24 +1,31 @@
 #!/bin/bash
-
-source ./db_root_path.sh
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+source DBMS_Scripts/db_root_path.sh
 current_db=$(cat "$DB_PATH/current_db")
 
 if [ -z $current_db ]; then
-    echo '+---------------------------------+'
-    echo "You are not connected to DB"
-    echo '+---------------------------------+'
-    exit 1
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t============================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......\c"
+    read press
+    Table_Menu
 fi
 
 # get table name
-echo "Enter table name"
+echo -e "\n\n\t\t\t\t\t\t${BYellow}EEnter table name : ${NC}\c"
 read -r table_name
-while [ ! -f "$DB_PATH/$current_db/$table_name" ]; do
-    echo '+---------------------------------+'
-    echo "Enter table name"
-    echo '+---------------------------------+'
-    read -r table_name
-done
+if [ ! -f "$DB_PATH/$current_db/$table_name" ]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
+fi
 
 declare -a data_type
 declare -a col_names
@@ -30,10 +37,14 @@ type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f 1)
 
 if [ -z $type ]; then
-    echo '+---------------------------------+'
-    echo "This table has no structure!"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This table has no structure!${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 fi
 
 while [ ! -z "$type" ]; do
@@ -49,57 +60,84 @@ while [ ! -z "$type" ]; do
 done
 
 # select all
-echo '+---------------------------------+'
-select select in "all" "where"; do
+echo -e "\n\t\t${BYellow}Select From table ($table_name):${NC}"
+Choices=("Select All data at the table" "Select All data where ? ")
+PS3="Enter Your Choice: "
+select select in "${Choices[@]}"; do
     case $select in
-    all)
-        for x in "$(awk 'NR>2{print p}{p=$0}' "$DB_PATH/$current_db/$table_name")"; do
-            echo "$x"
-        done
-        exit 0
+    "${Choices[0]}")
+        echo -e "\n\t\t|=============|"
+        echo -e "\t\t|   $table_name     |"
+        echo -e "\t\t|=============|"
+        echo '+----------------------------------+'
+        sed '1d' "$DB_PATH/$current_db/$table_name" | column -t -s "|"
+        echo -e '+-----------------------------------+\n'
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+        read press
+        Table_Menu
         break
         ;;
-    where) break ;;
+    "${Choices[1]}") break ;;
     *) echo "Wrong Choice" ;;
     esac
 done
-echo '+---------------------------------+'
 
-echo '+----------------------------------------------------+'
 max_columns=${#col_names[@]}
-echo "Choose which column you want to run query at:"
-echo "Choose from 1 to $max_columns"
+echo -e "\n\t\t\t\t\t\t${BYellow}Choose which column you want to run query at${NC}"
+echo -e "\n\t\t\t\t\t\t${BYellow}Choose from 1 to $max_columns : ${NC}\c"
 read -r choice
-echo '+----------------------------------------------------+'
 
 ## check input
 if ! [[ $choice =~ ^[0-9]+$ ]]; then
-    echo '+---------------------------------+'
-    echo "Enter Vaild Choice !"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}This table has no structure!${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 elif (($choice > $max_columns || $choice <= 0)); then
-    echo '+---------------------------------+'
-    echo "PLease enter a valid choice"
-    echo '+---------------------------------+'
-    exit 1
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid choice${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 fi
 
-echo '+--------------------------------------------+'
-echo "Where column $choice = 'enter value' "
+echo -e "\n\t\t\t\t\t\t${BYellow}Where column $choice : ${NC}\c "
 read -r target_value
-echo '+--------------------------------------------+'
 
 values=$(awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name")
 
 if [ "$values" ]; then
-    echo '+---------------------------------------------------------------------------+'
-    for x in "$(awk -F'|' -v x="$target_value" -v pos=$choice 'NR>2{if($pos == x){ print}}' "$DB_PATH/$current_db/$table_name")"; do
-        echo "$x"
-    done
-    echo '+----------------------------------------------------------------------------+'
+    e=$(sed -n '2p' "$DB_PATH/$current_db/$table_name")
+
+    echo "$e" >"$DB_PATH/$current_db/$table_name.tmp"
+    echo "$values" >>"$DB_PATH/$current_db/$table_name.tmp"
+
+    echo -e "\n\t\t|=============|"
+    echo -e "\t\t|   $table_name     |"
+    echo -e "\t\t|=============|"
+    echo '+----------------------------------+'
+
+    column -t -s "|" "$DB_PATH/$current_db/$table_name.tmp"
+    rm "$DB_PATH/$current_db/$table_name.tmp"
+
+    echo -e '+----------------------------------+\n'
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 else
-    echo '+---------------------------------+'
-    echo "No values were found"
-    echo '+---------------------------------+'
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}No values were found${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+    read press
+    Table_Menu
 fi

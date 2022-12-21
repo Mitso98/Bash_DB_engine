@@ -1,39 +1,89 @@
 #!/bin/bash
 
 # IMPORT DB_PATH variable
-source ./db_root_path.sh
+source DBMS_Scripts/db_root_path.sh
 
 declare DB
 
-typeset curr=$(cat $DB_PATH/current_db)
+current_db=$(cat $DB_PATH/current_db)
+#show existed DB to help the user
 
-if [ -z $current_db ]; then
-    echo '+---------------------------------+'
-    echo "You are not connected to DB"
-    echo '+---------------------------------+'
-    exit 1
+ls $DB_PATH/*/ >/dev/null 2>&1
+
+if [ $? == 0 ]; then
+
+    echo -e "${BBlue}\n\n\t\t\t\t\t\t===================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|  ${NC}${BGreen}Your DataBases ${NC}${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t===================${NC}"
+
+    list=$(ls -d $DB_PATH/*/ | cut -f3 -d '/')
+    for dbname in $list; do
+
+        echo -e "\t\t\t\t\t\t    |   ${BWhite}$dbname${NC}   |"
+        echo -e "\t\t\t\t\t\t${BBlue}+-------------------+${NC}"
+    done
+
+else
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=======================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}NO DataBases created yet!${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t=======================================${NC}\n"
+    echo -e "${BYellow}\t\t\t\t\t\t (Back To Main Menu) Press any👇......${NC}\c"
+    read press
+    clear
+    mainMenu
+
 fi
 
-echo '+---------------------------------+'
-echo "Enter DB Name to Drop : "
+########################### drop##################
+echo -e "\n\t\t\t\t\t\t${BYellow}Enter DB Name to Drop :${NC}\c"
 read -r DB
-echo '+---------------------------------+'
 
-if [ -d "$DB_PATH/$DB" ]; then
-    if [ "$DB" = "$curr" ]; then
-        echo "Your now connected to $DB please exit from $DB first"
+if [ -z "$DB" ]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Enter vaild Input${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+    read press
+    mainMenu
+fi
+
+if [[ $DB =~ ^[A-Za-z].* ]]; then
+
+    if [ -d "$DB_PATH/$DB" ]; then
+        if [ "$DB" = "$current_db" ]; then
+
+            clear
+            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t===============================================================${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t|${NC}    ${BWhite}Your now connected to ${BGreen}$DB${NC} please exit from ${BGreen}$DB${NC} first${NC}✋ ${BBlue} | ${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t=================================================================${NC}\n\n"
+            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+            read press
+            mainMenu
+
+        else
+
+            clear
+            rm -r "$DB_PATH/$DB"
+            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==================================================${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}The ${BGreen}$DB${NC} Data Base Droped Successfuly${NC}👌   ${BBlue}|${NC}"
+            echo -e "${BBlue}\t\t\t\t\t\t==================================================${NC}\n\n"
+            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+            read press
+            mainMenu
+
+        fi
 
     else
-        rm -r "$DB_PATH/$DB"
-        echo '+-------------------------------------+'
-        echo "The $DB Data Base Droped Successfuly"
-        echo '+--------------------------------------+'
 
-        exit 0
+        clear
+        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t===========================================${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid DB name${NC}✋   ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t===========================================${NC}\n\n"
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+        read press
+        mainMenu
+
     fi
-else
-    echo '+---------------------------------+'
-    echo "PLease enter a valid DB name"
-    echo '+---------------------------------+'
-    exit 1
 fi
