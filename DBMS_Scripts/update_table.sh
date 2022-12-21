@@ -142,8 +142,14 @@ select Choice in "${choices[@]}"; do
                             echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
                             read -r new_pk
                             if ! [[ ${col_dt[$pk_index]} == *"int"* && $new_pk =~ ^-?[0-9]+$ ]] || [[ ${col_dt[$pk_index]} == *"str"* && $new_pk =~ ^[A-Za-z].* ]]; then
-                                echo "PLease enter valid data"
-                                exit 1
+
+                                clear
+                                echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter valid data${NC}✋   ${BBlue}|${NC}"
+                                echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                read press
+                                Table_Menu
 
                             fi
 
@@ -155,7 +161,6 @@ select Choice in "${choices[@]}"; do
                                     echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
                                     echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
                                     echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
                                     read press
                                     Table_Menu
                                 fi
@@ -413,14 +418,10 @@ select Choice in "${choices[@]}"; do
                                 x=$(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d' | sed "${i}p;d")
                                 if [ "$x" = "$new_pk" ]; then
 
-                                    clear
-                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
-                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
-                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
-                                    read press
-                                    Table_Menu
+                                    echo -e "${BRed}PK must be unique ✋   ${NC}"
+
                                 fi
+
                                 i=$i+1
                             done
                             col_index_to_change[$pk_index]=$pk_index
