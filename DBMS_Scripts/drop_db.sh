@@ -49,41 +49,48 @@ if [ -z "$DB" ]; then
     mainMenu
 fi
 
-if [[ $DB =~ ^[A-Za-z].* ]]; then
+if ! [[ $DB =~ ^[A-Za-z].* ]]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t======================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}   ${BWhite} PLease enter a valid DB name${NC}✋ ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t=======================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+    read press
+    mainMenu
 
-    if [ -d "$DB_PATH/$DB" ]; then
-        if [ "$DB" = "$current_db" ]; then
+fi
 
-            clear
-            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t===============================================================${NC}"
-            echo -e "${BBlue}\t\t\t\t\t\t|${NC}    ${BWhite}Your now connected to ${BGreen}$DB${NC} please exit from ${BGreen}$DB${NC} first${NC}✋ ${BBlue} | ${NC}"
-            echo -e "${BBlue}\t\t\t\t\t\t=================================================================${NC}\n\n"
-            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
-            read press
-            mainMenu
+if [ -d "$DB_PATH/$DB" ]; then
 
-        else
+    if [ "$DB" = "$current_db" ]; then
 
-            clear
-            rm -r "$DB_PATH/$DB"
-            echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==================================================${NC}"
-            echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}The ${BGreen}$DB${NC} Data Base Droped Successfuly${NC}👌   ${BBlue}|${NC}"
-            echo -e "${BBlue}\t\t\t\t\t\t==================================================${NC}\n\n"
-            echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
-            read press
-            mainMenu
-
-        fi
+        clear
+        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t===============================================================${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}    ${BWhite}Your now connected to ${BGreen}$DB${NC} please exit from ${BGreen}$DB${NC} first${NC}✋ ${BBlue} | ${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t=================================================================${NC}\n\n"
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+        read press
+        mainMenu
 
     else
 
         clear
-        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t===========================================${NC}"
-        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid DB name${NC}✋   ${BBlue}|${NC}"
-        echo -e "${BBlue}\t\t\t\t\t\t===========================================${NC}\n\n"
+        rm -r "$DB_PATH/$DB"
+        echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==================================================${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}The ${BGreen}$DB${NC} Data Base Droped Successfuly${NC}👌   ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t==================================================${NC}\n\n"
         echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
         read press
         mainMenu
 
     fi
+else
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t===========================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid DB name${NC}✋   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t===========================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+    read press
+    mainMenu
+
 fi
