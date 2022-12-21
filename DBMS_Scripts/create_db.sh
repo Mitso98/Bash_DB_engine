@@ -9,6 +9,7 @@ declare DB
 #check whether root folder exist
 if [ ! -d $DB_PATH ]; then
 	mkdir $DB_PATH
+	touch $DB_PATH/current_db
 fi
 
 # user entered DB name
