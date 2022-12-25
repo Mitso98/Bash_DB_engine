@@ -198,3 +198,62 @@ sed '1d' test1 | column -t -s "|"
 db_root
 
 ```
+
+
+
+
+
+
+
+rename 
+
+else condintion 
+Comment at the real operation rename 
+
+
+add column 
+message of add new column 
+raise hand 
+
+drop column
+
+message for take the name of table 
+${NC} changed at message of deleted 
+raise hand 
+
+rename column 
+
++----------+
+remove loop
+raise hand 
+
+
+insert into table 
+echo ""
+
+
+update 
+
+with pk specfic col highlight
+
+if ! [[ "${#row_indexs[@]}" > "1" ]] 
+
+
+
+delete
+exit Error
+
+
+count row 
+
+back to alter table 
+raise hand
+
+Sum 
+
+if (column name fady )
+
+
+
+
+

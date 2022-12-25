@@ -54,6 +54,16 @@ while [ ! -z "$type" ]; do
     col_name=$(awk 'NR==2{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter)
     type=$(awk 'NR==1{print}' "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $counter)
 done
+#####################added
+if [ "${#col_names[@]}" == "0" ]; then
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You Don't have Column of type int ${NC}  ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
+    read press
+    Table_Menu
+fi
 
 echo "+---------------------------------------------+"
 echo "Choose a column!"
@@ -61,7 +71,11 @@ target_col=""
 select opt in "${col_names[@]}" "exit"; do
     case "$opt" in
     "exit")
-        exit 1
+        clear
+        ########################################## addedd
+        echo -e "${BYellow}\n\n\n\n\n\n\n\n\n\n\\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}......${NC}\c"
+        read press
+        Table_Menu
         break
         ;;
     "$opt")

@@ -143,7 +143,8 @@ if [[ "$specific_record" == "1" ]]; then
         for record in "$(sed -n "$j p" "$DB_PATH/$current_db/$table_name")"; do
             for ((i = 1; i <= max_columns; i++)); do
                 x="$(cut -d'|' -f $i <<<"$record")"
-                exit
+                ########################erroor
+                ###exit
                 if [[ "$x" == "$target_value" && "$((col_pos + 1))" == "$i" && "$j" > "2" ]]; then
                     found=1
                     echo -n "|" >>"$DB_PATH/$current_db/$table_name.tmp"
@@ -166,6 +167,7 @@ if [[ "$specific_record" == "1" ]]; then
         Table_Menu
     fi
     $(mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name")
+
     clear
     echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"
     echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Value was succesufully deleted${NC}😊   ${BBlue}|${NC}"

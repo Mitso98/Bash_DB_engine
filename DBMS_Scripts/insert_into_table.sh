@@ -110,11 +110,10 @@ while [[ $index < $col_no ]]; do
 	((counter += 1))
 	((index += 1))
 done
-
+echo "" >>"$DB_PATH/$current_db/$table_name"
 for x in "${row[@]}"; do
 	echo -e "$x\c" >>"$DB_PATH/$current_db/$table_name"
 done
-echo "" >>"$DB_PATH/$current_db/$table_name"
 
 clear
 echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t========================================${NC}"

@@ -227,9 +227,10 @@ select Choice in "${choices[@]}"; do
                                 flag=1
                                 break
                                 ;;
+                                ############################## highlight
                             no)
-                                updated[$pk_index]="null"
-                                col_index_to_change[$pk_index]=$pk_index
+                                updated[$index]="null"
+                                col_index_to_change[$index]=$index
                                 break
                                 ;;
                             *) echo "Wrong Choice" ;;
@@ -399,7 +400,8 @@ select Choice in "${choices[@]}"; do
                         col_index_to_change[$index]=$index
 
                     else
-                        if ! [[ "${#row_indexs[@]}" > 1 ]]; then
+                        ################################## Error
+                        if ! [[ "${#row_indexs[@]}" > "1" ]]; then
 
                             echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
                             read -r new_pk
@@ -417,8 +419,15 @@ select Choice in "${choices[@]}"; do
                             while [ $i -le $Num_records ]; do
                                 x=$(cat "$DB_PATH/$current_db/$table_name" | cut -d '|' -f $pk_index | sed '1,2d' | sed "${i}p;d")
                                 if [ "$x" = "$new_pk" ]; then
+                                    #################################################ho -e "${BRed}PK must be unique ✋   ${NC}"
 
-                                    echo -e "${BRed}PK must be unique ✋   ${NC}"
+                                    clear
+                                    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PK must be unique${NC}✋   ${BBlue}|${NC}"
+                                    echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
+                                    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}👇......${NC}\c"
+                                    read press
+                                    Table_Menu
 
                                 fi
 
@@ -428,7 +437,7 @@ select Choice in "${choices[@]}"; do
                             updated[$pk_index]="$new_pk"
                         else
                             echo "PK will be Duplicated You can not Change it :) !!"
-                            col_index_to_change[$pk_index]=$pk_index
+                            col_index_to_change[$index]=$pk_index
                             updated[$pk_index]="null"
                         fi
                     fi
@@ -463,8 +472,8 @@ select Choice in "${choices[@]}"; do
                     if [ "$flag" = "1" ]; then
                         ################################### pk cant change ########################################
                         if [ "$index" = "$pk_index" ]; then
-
-                            if ! [[ "${#row_indexs[@]}" > 1 ]]; then
+                            ########################################## error
+                            if ! [[ "${#row_indexs[@]}" > "1" ]]; then
 
                                 echo -e "Enter new ("${col_names[$pk_index]}")("${col_dt[$pk_index]}")(pk): \c"
                                 read -r new_pk

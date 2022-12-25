@@ -83,7 +83,9 @@ if [ -d "$DB_PATH/$DB" ]; then
         if [[ $NEWDB =~ ^[A-Za-z].* ]]; then
 
             clear
-            #mv "$DB_PATH/$DB" "$DB_PATH/$NEWDB"
+
+            mv "$DB_PATH/$DB" "$DB_PATH/$NEWDB"
+
             echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================================${NC}"
             echo -e "${BBlue}\t\t\t\t\t\t|${NC}  ${BWhite}The ${BGreen}$DB${NC} Data Base Renamed to ${BGreen}$NEWDB${NC} Successfuly ${NC}👌  ${BBlue}|${NC}"
             echo -e "${BBlue}\t\t\t\t\t\t=====================================================${NC}\n\n"
@@ -103,4 +105,16 @@ if [ -d "$DB_PATH/$DB" ]; then
         fi
 
     fi
+
+else
+
+    clear
+    echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=======================================${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Please enter a valid input!${NC}   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t=======================================${NC}\n\n"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Main Menu${NC}👇......${NC}\c"
+    read press
+    clear
+    mainMenu
+
 fi

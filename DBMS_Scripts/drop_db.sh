@@ -76,6 +76,7 @@ if [ -d "$DB_PATH/$DB" ]; then
 
         clear
         rm -r "$DB_PATH/$DB"
+
         echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==================================================${NC}"
         echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}The ${BGreen}$DB${NC} Data Base Droped Successfuly${NC}👌   ${BBlue}|${NC}"
         echo -e "${BBlue}\t\t\t\t\t\t==================================================${NC}\n\n"

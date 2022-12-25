@@ -16,7 +16,7 @@ fi
 
 # get table name
 
-echo -e"\n\t\t\t\t\t\t${BYellow}Enter table name :${NC}  \c"
+echo -e "\n\t\t\t\t\t\t${BYellow}Enter table name :${NC}  \c"
 read -r table_name
 
 if [ -z "$table_name" ]; then
@@ -97,7 +97,7 @@ $(mv "$DB_PATH/$current_db/$table_name.tmp" "$DB_PATH/$current_db/$table_name")
 echo ""
 clear
 echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=====================================${NC}"
-echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Column ${BYellow}$col_name_ref{NC} has been deleted${NC}✋   ${BBlue}|${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Column ${BYellow}$col_name_ref${NC} has been deleted${NC}✋   ${BBlue}|${NC}"
 echo -e "${BBlue}\t\t\t\t\t\t========================================${NC}\n\n"
 echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Alter table Menu${NC}👇......${NC}\c"
 read press

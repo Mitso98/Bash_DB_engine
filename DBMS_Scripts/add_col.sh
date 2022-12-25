@@ -12,9 +12,9 @@ declare col_type
 if [ -z $current_db ]; then
     clear
     echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
-    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}:raised_hand:   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}You are not connected to DB${NC}   ${BBlue}|${NC}"
     echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}.${NC}\c"
     read press
     AlterMenu
 fi
@@ -42,9 +42,9 @@ read -r col_name
 if ! [[ "$col_name" =~ ^[A-Za-z].* ]]; then
     clear
     echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
-    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}:raised_hand:   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid name${NC}   ${BBlue}|${NC}"
     echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC} ......${NC}\c"
     read press
     AlterMenu
 fi
@@ -58,9 +58,9 @@ while [[ $check_col_name ]]; do
         col_is_unique=0
         clear
         echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
-        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Column name must be unique${NC}:raised_hand:   ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}     ${BWhite}Column name must be unique${NC}   ${BBlue}|${NC}"
         echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
+        echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC} ......${NC}\c"
         read press
         AlterMenu
     else
@@ -74,9 +74,9 @@ read -r col_type
 if [[ $col_type != "str" && $col_type != "int" ]]; then
     clear
     echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
-    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid data type${NC}:raised_hand:   ${BBlue}|${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}PLease enter a valid data type${NC}   ${BBlue}|${NC}"
     echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
+    echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}......${NC}\c"
     read press
     AlterMenu
 fi
@@ -110,8 +110,8 @@ $(sed -i "s/$row_col/$row_col$col_name|/" "$DB_PATH/$current_db/$table_name")
 
 clear
 echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t==============================${NC}"
-echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}${NC}:raised_hand:   ${BBlue}|${NC}"
+echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}Column add Successfully :)${NC}  ${BBlue}|${NC}"
 echo -e "${BBlue}\t\t\t\t\t\t==============================${NC}\n\n"
-echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}:point_down:......${NC}\c"
+echo -e "${BYellow}\t\t\t\t\t\t${BWhite}Back To Table Contol Menu${NC}......${NC}\c"
 read press
 AlterMenu
