@@ -181,7 +181,7 @@ function mainMenu {
 
     clear
     echo -e "${BBlue}\n\t\t\t\t\t\t=========================${NC}"
-    echo -e "${BBlue}\t\t\t\t\t\t|${NC} ${BGreen}DBMS With Bash Script${NC}${BBlue} |${NC}"
+    echo -e "${BBlue}\t\t\t\t\t\t|${NC} ${BGreen}CSV File Manager With Bash Script${NC}${BBlue} |${NC}"
     echo -e "${BBlue}\t\t\t\t\t\t=========================${NC}\n"
     echo -e "${BBlue}\t\t\t\t\t\t1)${NC}${BWhite} Create Database${NC}\n"
     echo -e "${BBlue}\t\t\t\t\t\t2)${NC}${BWhite} List Databases${NC}\n"
@@ -223,7 +223,7 @@ function mainMenu {
     6)
         clear
         echo -e "${BBlue}\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t=========================${NC}"
-        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}SEE SOON${NC}  😉     ${BBlue}|${NC}"
+        echo -e "${BBlue}\t\t\t\t\t\t|${NC}      ${BWhite}SEE YOU SOON${NC}  😉     ${BBlue}|${NC}"
         echo -e "${BBlue}\t\t\t\t\t\t=========================${NC}\n\n"
         echo -e "${BYellow}\t\t\t\t\t\t Press any Key......${NC}\c"
         read press
